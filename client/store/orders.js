@@ -56,7 +56,7 @@ const ordersReducer = (state = initialState, action) => {
     case ADD_ORDER:
       return { ...state, allOrders: [ ...state.allOrders, action.newOrder ] }
     case EDIT_ORDER:
-      return state.allOrders.map(order => action.updatedOrder.id === order.id ? action.updatedOrder : order)
+      return { ...state, allOrders: state.allOrders.map(order => action.updatedOrder.id === order.id ? action.updatedOrder : order) }
     default:
       return state
   }

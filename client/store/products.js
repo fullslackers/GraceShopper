@@ -65,7 +65,7 @@ const productsReducer = (state = initialState, action) => {
     case ADD_PRODUCT:
       return { ...state, allProducts: [ ...state.allProducts, action.newProduct ] }
     case EDIT_PRODUCT:
-      return state.allProducts.map(product => action.updatedProduct.id === product.id ? action.updatedProduct : product)
+      return { ...state, allProducts: state.allProducts.map(product => action.updatedProduct.id === product.id ? action.updatedProduct : product) }
     case REMOVE_PRODUCT:
       return { ...state, allProducts: state.allProducts.filter(product => product.id !== action.id) }
     default:

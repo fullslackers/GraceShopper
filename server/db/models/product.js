@@ -21,7 +21,8 @@ const Product = db.define('product', {
   imageUrl: {
     type: Sequelize.STRING,
     allowNull: false,
-    defaultValue: 'https://cdn.shopify.com/s/files/1/0644/8811/products/kohinoor_gold_magic_pencil_31adc963-c877-4583-8e5f-8ebcb595af1e_1024x1024.jpg?v=1527216135',
+    defaultValue:
+      'https://cdn.shopify.com/s/files/1/0644/8811/products/kohinoor_gold_magic_pencil_31adc963-c877-4583-8e5f-8ebcb595af1e_1024x1024.jpg?v=1527216135',
     validate: {
       notEmpty: true
     }

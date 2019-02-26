@@ -1,11 +1,13 @@
 Table Users {
   PK integer
-  isAdmin boolean
   firstName string
-  middleName string
+  middleInitial string
   lastName string
   email string
   password string
+  salt string
+  googleId string
+  isAdmin boolean
 }
 
 Table Products {

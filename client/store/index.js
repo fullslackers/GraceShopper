@@ -4,9 +4,11 @@ import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import currentUser from './SingleUser'
 import users from './allusers'
+import products from './products'
 const reducer = combineReducers({
   users,
-  currentUser
+  currentUser,
+  products
 })
 const middleware = composeWithDevTools(
   applyMiddleware(
@@ -19,4 +21,4 @@ const middleware = composeWithDevTools(
 const store = createStore(reducer, middleware)
 
 export default store
-// export * from './user'
+export * from './SingleUser'

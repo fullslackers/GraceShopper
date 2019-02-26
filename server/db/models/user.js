@@ -1,15 +1,31 @@
 const crypto = require('crypto')
-const Sequelize = require('sequelize')
+const {BOOLEAN, STRING} = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  firstName: {
+    type: STRING,
+    allowNull: false
+  },
+  middleInitial: {
+    type: STRING
+  },
+  lastName: {
+    type: STRING,
+    allowNull: false
+  },
   email: {
-    type: Sequelize.STRING,
+    type: STRING,
     unique: true,
     allowNull: false
   },
   password: {
-    type: Sequelize.STRING,
+    type: STRING,
+    validate: {
+      /* Password is at least 8 chars and must contain at least 1 uppercase
+      letter, 1 lowercase letter, and 1 special character. */
+      is: /((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})/
+    },
     // Making `.password` act like a func hides it when serializing to JSON.
     // This is a hack to get around Sequelize's lack of a "private" option.
     get() {
@@ -17,7 +33,7 @@ const User = db.define('user', {
     }
   },
   salt: {
-    type: Sequelize.STRING,
+    type: STRING,
     // Making `.salt` act like a function hides it when serializing to JSON.
     // This is a hack to get around Sequelize's lack of a "private" option.
     get() {
@@ -25,37 +41,33 @@ const User = db.define('user', {
     }
   },
   googleId: {
-    type: Sequelize.STRING
+    type: STRING
+  },
+  isAdmin: {
+    type: BOOLEAN,
+    allowNull: false,
+    defaultValue: false
   }
 })
 
 module.exports = User
 
-/**
- * instanceMethods
- */
+// Instance Methods
 User.prototype.correctPassword = function(candidatePwd) {
   return User.encryptPassword(candidatePwd, this.salt()) === this.password()
 }
 
-/**
- * classMethods
- */
-User.generateSalt = function() {
-  return crypto.randomBytes(16).toString('base64')
-}
+// Class Methods
+User.generateSalt = () => crypto.randomBytes(16).toString('base64')
 
-User.encryptPassword = function(plainText, salt) {
-  return crypto
+User.encryptPassword = (plainText, salt) =>
+  crypto
     .createHash('RSA-SHA256')
     .update(plainText)
     .update(salt)
     .digest('hex')
-}
 
-/**
- * hooks
- */
+// Hooks
 const setSaltAndPassword = user => {
   if (user.changed('password')) {
     user.salt = User.generateSalt()

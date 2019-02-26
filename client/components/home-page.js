@@ -22,7 +22,7 @@ export class HomePage extends React.Component {
 
 const mapState = state => {
   return {
-    products: state.allProducts
+    products: state.products.allProducts
   }
 }
 

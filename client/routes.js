@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome} from './components'
+import {me} from './store'
 import HomePage from './components/home-page'
-import me from './store'
 import {fetchProducts} from './store/products'
 
 /**
@@ -12,6 +12,7 @@ import {fetchProducts} from './store/products'
  */
 class Routes extends Component {
   componentDidMount() {
+    this.props.loadInitialData()
     this.props.fetchedProducts()
   }
 
@@ -50,7 +51,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    fetchedProducts: dispatch(fetchProducts())
+    fetchedProducts: () => dispatch(fetchProducts()),
+    loadInitialData: () => dispatch(me())
   }
 }
 

@@ -31,7 +31,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchSelectedProduct: () => {
-      dispatch(fetchSelectedProduct)
+      const productId = ownProps.match.params.productId
+      dispatch(fetchSelectedProduct(productId))
     }
   }
 }

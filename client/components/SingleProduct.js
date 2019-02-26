@@ -7,24 +7,17 @@ class SingleProduct extends Component {
     this.props.fetchSelectedProduct()
   }
   render() {
+    console.log(this.props)
     return (
-      <ul>
-        {this.props.selectedProduct.map(product => {
-          return (
-            <li key={product.id}>
-              {product.title} {product.description} {product.imageUrl}{' '}
-              {product.price} {product.inventory}
-            </li>
-          )
-        })}
-      </ul>
+      <div>
+        {this.props.selectedProduct.id}
+        {this.props.selectedProduct.title}
+        {this.props.selectedProduct.description}
+        {this.props.selectedProduct.imageUrl}
+        {this.props.selectedProduct.price}
+        {this.props.selectedProduct.inventory}
+      </div>
     )
-  }
-}
-
-const mapStateToProps = (state, ownProps) => {
-  return {
-    selectedProduct: state.products.selectedProduct
   }
 }
 
@@ -34,6 +27,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const productId = ownProps.match.params.productId
       dispatch(fetchSelectedProduct(productId))
     }
+  }
+}
+const mapStateToProps = (state, ownProps) => {
+  return {
+    selectedProduct: state.products.selectedProduct
   }
 }
 

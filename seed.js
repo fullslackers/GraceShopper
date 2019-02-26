@@ -1,3 +1,4 @@
+/* eslint-disable max-statements */
 const {green, red} = require('chalk')
 const {
   User,
@@ -193,16 +194,68 @@ const seed = async () => {
     const [pencil1, pencil2, pencil3, pencil4, pencil5] = products
     const [order1, order2, order3, order4, order5] = orders
     const [review1, review2, review3, review4, review5] = reviews
-    const [pencils, erasers, sharpeners] = categories
+    const [pencil, eraser, sharpener] = categories
 
-    // console.log('MAGIC!!', Object.keys(pencil1.__proto__))
+    //USERS
+    const promise1 = tony.setOrders([order1, order2])
+    const promise2 = tony.setReviews([review1])
+    const promise3 = paulie.setOrders([order3])
+    const promise4 = paulie.setReviews([review2])
+    const promise5 = christopher.setOrders([order4])
+    const promise6 = christopher.setReviews([review3])
+    const promise7 = silvio.setOrders([order5])
+    const promise8 = silvio.setReviews([review4, review5])
 
-    // const promise1 = pencil1.setCategory([project1, project3]);
-    // const promise2 = robot2.setProjects([project1, project3]);
-    // // const promise3 = robot3.setProjects([project3]);
-    // // const promise4 = robot4.setProjects([project1]);
+    //PRODUCTS
+    const promise9 = pencil1.setCategories([pencil])
+    const promise10 = pencil2.setCategories([pencil])
+    const promise11 = pencil3.setCategories([eraser])
+    const promise12 = pencil4.setCategories([eraser])
+    const promise13 = pencil5.setCategories([sharpener])
 
-    // // await Promise.all([promise1, promise2, promise3, promise4]);
+    const promise14 = pencil1.setOrders([order1, order3, order5])
+    const promise15 = pencil2.setOrders([order1, order2, order3])
+    const promise16 = pencil3.setOrders([order4])
+    const promise17 = pencil4.setOrders([order2, order4, order5])
+    const promise18 = pencil5.setOrders([
+      order1,
+      order2,
+      order3,
+      order4,
+      order5
+    ])
+
+    const promise19 = pencil1.setReviews([review1])
+    const promise20 = pencil2.setReviews([review2])
+    const promise21 = pencil3.setReviews([review3])
+    const promise22 = pencil4.setReviews([review4])
+    const promise23 = pencil5.setReviews([review5])
+
+    await Promise.all([
+      promise1,
+      promise2,
+      promise3,
+      promise4,
+      promise5,
+      promise6,
+      promise7,
+      promise8,
+      promise9,
+      promise10,
+      promise11,
+      promise12,
+      promise13,
+      promise14,
+      promise15,
+      promise16,
+      promise17,
+      promise18,
+      promise19,
+      promise20,
+      promise21,
+      promise22,
+      promise23
+    ])
   } catch (err) {
     console.log(red(err))
   }

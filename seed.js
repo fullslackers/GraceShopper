@@ -1,5 +1,4 @@
 /* eslint-disable max-statements */
-const {green, red} = require('chalk')
 const {
   User,
   Product,
@@ -257,7 +256,7 @@ const seed = async () => {
       promise23
     ])
   } catch (err) {
-    console.log(red(err))
+    console.log(err)
   }
 }
 
@@ -266,11 +265,11 @@ module.exports = seed
 if (require.main === module) {
   seed()
     .then(() => {
-      console.log(green('Seeding success!'))
+      console.log('Seeding success!')
       db.close()
     })
     .catch(err => {
-      console.error(red('Oh noes! Something went wrong!'))
+      console.error('Oh noes! Something went wrong!')
       console.error(err)
       db.close()
     })

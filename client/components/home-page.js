@@ -1,13 +1,29 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {ProductForHomePage} from './productForHomePage'
 
-export const HomePage = () => {
-  return (
-    <div>
-      <img
-        src="https://cdn.shopify.com/s/files/1/0644/8811/files/banner_2000x.jpg?v=1548878113"
-        className="imgMainPage"
-      />
-      <div className="mainWelcome">Welcome</div>
-    </div>
-  )
+export class HomePage extends React.Component {
+  // constructor () {
+  //   super()
+  // }
+
+  render() {
+    console.log('QQQQQQQQQQQ', this.props)
+    return (
+      <div>
+        <h1>All Products</h1>
+        {this.props.products.map(product => {
+          return <ProductForHomePage key={product.id} product={product} />
+        })}
+      </div>
+    )
+  }
 }
+
+const mapState = state => {
+  return {
+    products: state.allProducts
+  }
+}
+
+export default connect(mapState)(HomePage)

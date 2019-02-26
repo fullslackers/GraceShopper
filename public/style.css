@@ -21,6 +21,7 @@ form div {
 }
 
 /* Main-Page */
-.mainWelcome {
-  font-size: 40;
+#mainWelcome {
+  font-size: 3em;
+  text-align: center;
 }

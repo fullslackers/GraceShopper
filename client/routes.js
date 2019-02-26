@@ -2,8 +2,10 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome, HomePage} from './components'
+import {Login, Signup, UserHome} from './components'
 import {me} from './store'
+import HomePage from './components/home-page'
+import {fetchProducts} from './store/products'
 import SingleProduct from './components/SingleProduct'
 
 /**
@@ -12,6 +14,7 @@ import SingleProduct from './components/SingleProduct'
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
+    this.props.fetchedProducts()
   }
 
   render() {
@@ -42,6 +45,8 @@ class Routes extends Component {
  */
 const mapState = state => {
   return {
+    // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
+    // Otherwise, state.user will be an empty object, and state.user.id will be falsey
     // Being 'logged in' for our purposes will be defined has having a state.currentUser that has a truthy id.
     // Otherwise, currentUser will be an empty object, and state.currentUser.id will be falsey
     isLoggedIn: !!state.currentUser.id
@@ -50,9 +55,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadInitialData() {
-      dispatch(me())
-    }
+    fetchedProducts: () => dispatch(fetchProducts()),
+    loadInitialData: () => dispatch(me())
   }
 }
 

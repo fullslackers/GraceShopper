@@ -1,0 +1,98 @@
+Table Users {
+  PK integer
+  isAdmin boolean
+  firstName string
+  middleName string
+  lastName string
+  email string
+  password string
+}
+
+Table Products {
+  PK integer
+  title string
+  description text
+  imageUrl string
+  price decimal
+  inventory integer
+  category_id FK
+}
+
+Table Orders {
+  PK integer
+  pricePaid decimal
+  productIds integer
+  status enum
+  userSession association
+}
+
+Table Addresses {
+  PK integer
+  address string
+  addressType enum
+  user association
+}
+
+Table Session {
+  PK integer
+  userId integer
+  user association
+}
+
+Table Cart {
+  PK integer
+  products association
+}
+
+Table Payment {
+  PK integer
+  fName string
+  mName string
+  lName string
+  cardNum integer
+  expiration date
+  securityCode integer
+  zipCode integer
+}
+
+Table Category {
+  PK integer
+  title string
+}
+
+Table Users_Products_Orders {
+  PK integer
+  user_id FK
+  product_id FK
+  order_id FK
+  quantity integer
+  price decimal
+}
+
+Table Reviews {
+  PK integer
+  user_id FK
+  product_id FK
+  description text
+  rating integer
+}
+
+Table Products_Categories {
+  PK integer
+  product_id FK
+  category_id FK
+}
+
+Ref: "Users"."PK" - "Users_Products_Orders"."user_id"
+
+Ref: "Products"."PK" - "Users_Products_Orders"."product_id"
+
+Ref: "Orders"."PK" - "Users_Products_Orders"."order_id"
+
+Ref: "Users"."PK" - "Reviews"."user_id"
+
+Ref: "Products"."PK" - "Reviews"."product_id"
+
+Ref: "Products"."PK" - "Products_Categories"."product_id"
+
+Ref: "Category"."PK" - "Products_Categories"."category_id"

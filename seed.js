@@ -1,6 +1,14 @@
 const {green, red} = require('chalk')
-const {User, Product, Order, Review, Category} = require('./server/db/models')
-const {db} = require('./server/db')
+const {
+  User,
+  Product,
+  Order,
+  Review,
+  Category,
+  ProductCategory,
+  OrderProduct,
+  db
+} = require('./server/db/models')
 
 const userData = [
   {
@@ -36,7 +44,7 @@ const userData = [
     isAdmin: false
   },
   {
-    firstnName: 'Pussy',
+    firstName: 'Pussy',
     middleInitial: null,
     lastName: 'Bonpensiero',
     email: 'pussybonpensiero@email.com',
@@ -114,23 +122,23 @@ const orderData = [
 const reviewData = [
   {
     description: 'Nice. I love it.',
-    rating: 5
+    rating: '5'
   },
   {
     description: 'Super.',
-    rating: 5
+    rating: '5'
   },
   {
     description: 'Feels awesome. Writes awesome.',
-    rating: 5
+    rating: '5'
   },
   {
     description: 'Best pencil ever!!!!!!!1',
-    rating: 5
+    rating: '5'
   },
   {
     description: 'This pencil changed my life.',
-    rating: 5
+    rating: '5'
   }
 ]
 

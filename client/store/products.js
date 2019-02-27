@@ -30,10 +30,15 @@ export const removeProduct = id => ({
 })
 
 // THUNK-TIONS
-export const fetchProducts = () => {
+export const fetchProducts = filter => {
   return async dispatch => {
-    const {data} = await axios.get('/api/products')
-    dispatch(setProducts(data))
+    if (!filter) {
+      const {data} = await axios.get('/api/products')
+      dispatch(setProducts(data))
+    } else {
+      const {data} = await axios.get('api/products/categories/filter')
+      dispatch(setProducts(data))
+    }
   }
 }
 

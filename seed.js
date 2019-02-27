@@ -57,7 +57,7 @@ const productData = [
   {
     title: 'Genius Pencil With Stylus',
     description: `This example of a bicolor pencil is especially unique. The colors are extra rich, the core is extra soft and it's also water-soluble! If you're familiar with the Caran d'Ache pencils, you'll find this to be the same core as the Supracolor line. Made in Switzerland. Core: Red/blue, soft, water-soluble. Measures 7" long. Sold individually.`,
-    imgUrl:
+    imageUrl:
       'https://cdn.shopify.com/s/files/1/0644/8811/products/Caran_d_Ache_Genius_pencil_ecaa7578-4169-4632-8acf-9311ea148b9f_1024x1024.jpg?v=1527216128',
     price: 7.0,
     inventory: 99
@@ -65,7 +65,7 @@ const productData = [
   {
     title: 'BiColor 999 Red/Blue Pencil',
     description: `This example of a bicolor pencil is especially unique. The colors are extra rich, the core is extra soft and it's also water-soluble! If you're familiar with the Caran d'Ache pencils, you'll find this to be the same core as the Supracolor line. Made in Switzerland. Core: Red/blue, soft, water-soluble. Measures 7" long. Sold individually. Hexagonal barrel, normal diameter. Pre-sharpened.`,
-    imgUrl:
+    imageUrl:
       'https://cdn.shopify.com/s/files/1/0644/8811/products/Caran_d_Ache_Bicolor_999_pencil_1024x1024.jpg?v=1527215608',
     price: 2.9,
     inventory: 2047
@@ -73,7 +73,7 @@ const productData = [
   {
     title: 'Majestic Jumbo #2 Pencil',
     description: `Nostalgic, comfortable to hold and just downright cute, these jumbo pencils are a standard HB/#2 graphite and are sure to bring back memories of Kindergarten (good ones, we hope!). Made in the USA. Grade: a true #2/HB. Measures 7 1/2" long, 3/8" in diameter. Hexagonal barrel, jumbo barrel. Sold individually`,
-    imgUrl:
+    imageUrl:
       'https://cdn.shopify.com/s/files/1/0644/8811/products/hester_and_cook_majestic_jumbo_pencil_1024x1024.jpg?v=1527215571',
     price: 1.7,
     inventory: 1000
@@ -81,7 +81,7 @@ const productData = [
   {
     title: 'Anthracite Perfect Pencil Magnum',
     description: `The Graf von Faber-Castell Perfect Pencil is the most luxurious and complete pencil experience. The fluted California cedar pencil comes with a capped eraser on one end, and a combination point-protector, pocket clip, and sharpener on the other. Both the pencil and the eraser can be replaced (keep in mind that the cap will only fit on Graf von Faber-Castell pencil refills). The high-quality graphite and anthracite PVD coated titanium hardware make this the Perfect tool for those who write, draw, or simply enjoy fine analog tools. This particular version is a jumbo version of F-C's original Perfect Pencil and features an extra thick 2B lead. Made in Germany. Measures 6 inches assembled. Pencil measures 5 1/4 inches. Cap measures 3 inches. Sold individually.`,
-    imgUrl:
+    imageUrl:
       'https://cdn.shopify.com/s/files/1/0644/8811/products/GVF_Magnum_Pencil_3_1024x1024.jpg?v=1527215592',
     price: 385.0,
     inventory: 5

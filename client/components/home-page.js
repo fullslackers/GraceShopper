@@ -8,11 +8,10 @@ export class HomePage extends React.Component {
   // }
 
   render() {
-    console.log('QQQQQQQQQQQ', this.props)
     return (
       <div>
         <h1>All Products</h1>
-        {this.props.products.map(product => {
+        {this.state.filteredProducts.map(product => {
           return <ProductForHomePage key={product.id} product={product} />
         })}
       </div>

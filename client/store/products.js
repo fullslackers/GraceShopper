@@ -88,7 +88,7 @@ const productsReducer = (state = initialState, action) => {
     case ADD_PRODUCT:
       return {
         ...state,
-        allProducts: [...state.allProducts, action.newProduct]
+        allProducts: [action.newProduct, ...state.allProducts]
       }
     case EDIT_PRODUCT:
       return {

@@ -16,6 +16,8 @@ const ProductCategory = db.define(
 Product.belongsToMany(Category, {through: ProductCategory})
 Category.belongsToMany(Product, {through: ProductCategory})
 
+// REVIEW: consider domain specific naming over smashing  tables together
+//         const LineItem =
 const OrderProduct = db.define(
   'order-product',
   {},

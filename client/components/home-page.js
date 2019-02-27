@@ -20,12 +20,25 @@ export class HomePage extends React.Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+  componentDidMount () {
+    this.fetchProducts(filter)
+    const filter = queryString.parse(this.props.location.search)
+  }
+
+  componentDidUpdate (prevProps) {
+    const filter = queryString.parse(this.prevProps.location.search)
+    if (prevProps.
+    const filter = queryString.parse(this.props.location.search)
+    this.fetchProducts(filter)
+  }
+
   handleChange(event) {
     const selectedOption = event.target.value
     this.setState({selectedOption})
   }
 
   render() {
+
     const products = !this.state.selectedOption
       ? this.props.products
       : filter(this.props.products, this.state.selectedOption)

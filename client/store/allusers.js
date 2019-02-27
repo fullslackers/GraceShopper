@@ -14,6 +14,7 @@ const initialState = {}
 
 // Thunk Creators
 export const fetchUsers = () => async dispatch => {
+  // REVIEW: what could we do with these errors?
   try {
     const {data} = await axios.get('/api/users')
     dispatch(getUsers(data))

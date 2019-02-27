@@ -88,6 +88,8 @@ const productsReducer = (state = initialState, action) => {
     case ADD_PRODUCT:
       return {
         ...state,
+        // REVIEW: do we always want to add to the end?
+        //         does this matter?
         allProducts: [...state.allProducts, action.newProduct]
       }
     case EDIT_PRODUCT:

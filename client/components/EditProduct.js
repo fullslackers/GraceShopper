@@ -22,8 +22,9 @@ class EditProduct extends Component {
     }
   }
 
-  submitHandler = async event => {
+  submitProduct = async event => {
     event.preventDefault()
+    // REVIEW: let's talk about this
     if (this.state.title && this.state.price) {
       const newProduct = {}
       Object.keys(this.state).forEach(key => {
@@ -34,7 +35,7 @@ class EditProduct extends Component {
     }
   }
 
-  changeHandler = event => {
+  setFormValue = event => {
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -44,13 +45,15 @@ class EditProduct extends Component {
     return (
       <div>
         <h1>Edit Product</h1>
-        <form onSubmit={this.submitHandler}>
+        {/* REVIEW: what if changeHandler is on <form> (also callback/handler naming)*/}
+        <form
+          onChange={this.setFormValue}
+          onSubmit={this.saveProduct}>
           <label htmlFor="title">Title: </label>
           <input
             name="title"
             type="text"
             value={this.state.title}
-            onChange={this.changeHandler}
           />
 
           <label htmlFor="description">Description: </label>
@@ -58,7 +61,6 @@ class EditProduct extends Component {
             name="description"
             type="text"
             value={this.state.description}
-            onChange={this.changeHandler}
           />
 
           <label htmlFor="imageUrl">Image URL: </label>
@@ -66,7 +68,6 @@ class EditProduct extends Component {
             name="imageUrl"
             type="text"
             value={this.state.imageUrl}
-            onChange={this.changeHandler}
           />
 
           <label htmlFor="price">Price: </label>
@@ -76,7 +77,6 @@ class EditProduct extends Component {
             step="0.01"
             min="0"
             value={this.state.price}
-            onChange={this.changeHandler}
           />
 
           <label htmlFor="inventory">Inventory: </label>
@@ -84,7 +84,6 @@ class EditProduct extends Component {
             name="inventory"
             type="number"
             value={this.state.inventory}
-            onChange={this.changeHandler}
           />
 
           <button type="submit">Submit</button>

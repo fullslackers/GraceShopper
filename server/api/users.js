@@ -27,7 +27,26 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:userId', (req, res, next) => {
+function loginRequired (req, res, next) {
+  if (req.user) {
+    next()
+  }
+  else {
+    res.sendStatus(401)
+  }
+}
+
+function adminOnly (req, res, next) {
+  if (req.user && req.user.isAdmin) {
+    next()
+  }
+  else {
+    res.sendStatus(401)
+  }
+}
+
+
+router.get('/:userId', loginRequired, (req, res, next) => {
   try {
     res.send(req.user)
   } catch (error) {
@@ -44,8 +63,19 @@ router.post('/', async (req, res, next) => {
   }
 })
 
+// const userSelfUpdateKeys = ['firstName', 'lastName', 'age']
+// const userAdminUpdateKeys = [...userSelfUpdateKeys, 'isAdmin']
+// createdAt
+
 router.put('/:userId', async (req, res, next) => {
   try {
+    // REVIEW: req.body danger zone
+    // { isAdmin: true }
+    //var object = { 'a': 1, 'b': '2', 'c': 3 };
+    //
+    //_.pick(object, ['a', 'c', 'not-a-key']);
+    // => { 'a': 1, 'c': 3 }
+    // => { 'a': 1, 'c': 3, 'not-a-key': undefined}
     const updatedUser = await req.user.update(req.body)
     res.send(updatedUser)
   } catch (error) {
@@ -53,7 +83,9 @@ router.put('/:userId', async (req, res, next) => {
   }
 })
 
-router.delete('/:userId', async (req, res, next) => {
+// REVIEW: access control
+
+router.delete('/:userId', adminOnly, async (req, res, next) => {
   try {
     await req.user.destroy()
     res.sendStatus(200)

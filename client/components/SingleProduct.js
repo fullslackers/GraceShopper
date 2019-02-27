@@ -8,13 +8,18 @@ class SingleProduct extends Component {
   }
   render() {
     return (
-      <div>
-        {this.props.selectedProduct.id}
-        {this.props.selectedProduct.title}
-        {this.props.selectedProduct.description}
-        {this.props.selectedProduct.imageUrl}
-        {this.props.selectedProduct.price}
-        {this.props.selectedProduct.inventory}
+      <div className="single-product-view">
+        <h1>{this.props.selectedProduct.title}</h1>
+        <img src={this.props.selectedProduct.imageUrl} />
+        <h3 className="description">
+          {this.props.selectedProduct.description}
+        </h3>
+
+        <h4>${this.props.selectedProduct.price}</h4>
+        <h5>
+          Item #: {this.props.selectedProduct.id} / Inventory:
+          {this.props.selectedProduct.inventory}
+        </h5>
       </div>
     )
   }

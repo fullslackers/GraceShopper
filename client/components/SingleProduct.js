@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchSelectedProduct} from './../store/products'
+import {Link} from 'react-router-dom'
 
 class SingleProduct extends Component {
   componentDidMount() {
@@ -20,6 +21,9 @@ class SingleProduct extends Component {
           Item #: {this.props.selectedProduct.id} / Inventory:
           {this.props.selectedProduct.inventory}
         </h5>
+        <Link to={`/products/${this.props.selectedProduct.id}/edit`}>
+          Edit Product
+        </Link>
       </div>
     )
   }

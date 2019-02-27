@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {ProductForHomePage} from './productForHomePage'
 
 const filter = (products, selectedOption) => {
+  if (selectedOption === 'sort by category') return products
   let allProducts = products.filter(product => {
     return product.categories[0].title === selectedOption
   })
@@ -28,8 +29,6 @@ export class HomePage extends React.Component {
     const products = !this.state.selectedOption
       ? this.props.products
       : filter(this.props.products, this.state.selectedOption)
-    console.log('PRODUCTS', products)
-    console.log('SELECTED OPTION', this.state.selectedOption)
     return (
       <div>
         <select onChange={this.handleChange}>

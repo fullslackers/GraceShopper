@@ -7,7 +7,6 @@ class SingleProduct extends Component {
     this.props.fetchSelectedProduct()
   }
   render() {
-    console.log(this.props)
     return (
       <div>
         {this.props.selectedProduct.id}

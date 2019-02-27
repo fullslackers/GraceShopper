@@ -3,15 +3,7 @@ import {connect} from 'react-redux'
 import {ProductForHomePage} from './productForHomePage'
 
 const filter = (products, selectedOption) => {
-  let allProducts = [...products]
-  return allProducts.filter(product => {
-    return product.categories.title === selectedOption
-  })
-}
-
-const filter2 = (products, selectedOption) => {
   let allProducts = products.filter(product => {
-    console.log('QQQQQQ', product)
     return product.categories[0].title === selectedOption
   })
 
@@ -35,7 +27,7 @@ export class HomePage extends React.Component {
   render() {
     const products = !this.state.selectedOption
       ? this.props.products
-      : filter2(this.props.products, this.state.selectedOption)
+      : filter(this.props.products, this.state.selectedOption)
     console.log('PRODUCTS', products)
     console.log('SELECTED OPTION', this.state.selectedOption)
     return (

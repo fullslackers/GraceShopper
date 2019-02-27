@@ -33,24 +33,6 @@ router.get('/:productId', async (req, res, next) => {
   }
 })
 
-router.get('/category/:categoryId', async (req, res, next) => {
-  try {
-    const productsByCategory = await Product.findAll({
-      include: [
-        {
-          model: Category,
-          where: {
-            id: req.params.categoryId
-          }
-        }
-      ]
-    })
-    res.json(productsByCategory)
-  } catch (err) {
-    next(err)
-  }
-})
-
 // Only administrators can create or edit products...add check for isAdmin?
 
 router.post('/', async (req, res, next) => {

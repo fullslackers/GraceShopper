@@ -5,16 +5,16 @@ const Review = require('./review')
 const Category = require('./category')
 const db = require('../db')
 
-const ProductCategory = db.define(
-  'product-category',
-  {},
-  {
-    freezeTableName: true
-  }
-)
+// const ProductCategory = db.define(
+//   'product-category',
+//   {},
+//   {
+//     freezeTableName: true
+//   }
+// )
 
-Product.belongsToMany(Category, {through: ProductCategory})
-Category.belongsToMany(Product, {through: ProductCategory})
+Product.belongsToMany(Category, {through: 'Project_Category'})
+Category.belongsToMany(Product, {through: 'Project_Category'})
 
 const OrderProduct = db.define(
   'order-product',
@@ -42,7 +42,7 @@ module.exports = {
   Order,
   Review,
   Category,
-  ProductCategory,
+  // ProductCategory,
   OrderProduct,
   db
 }

@@ -5,7 +5,7 @@ import {ProductForHomePage} from './productForHomePage'
 const filter = (products, selectedOption) => {
   if (selectedOption === 'sort by category') return products
   let allProducts = products.filter(product => {
-    if (product.categories.length > 0) {
+    if (product.categories && product.categories.length > 0) {
       return product.categories[0].title === selectedOption
     }
   })

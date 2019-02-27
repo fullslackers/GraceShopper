@@ -9,6 +9,7 @@ import {fetchProducts} from './store/products'
 import SingleProduct from './components/SingleProduct'
 import NewProduct from './components/NewProduct'
 import EditProduct from './components/EditProduct'
+import {fetchCategories} from './store/categories'
 
 /**
  * COMPONENT
@@ -17,6 +18,7 @@ class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
     this.props.fetchedProducts()
+    this.props.fetchedCategories()
   }
 
   render() {
@@ -60,6 +62,7 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     fetchedProducts: () => dispatch(fetchProducts()),
+    fetchedCategories: () => dispatch(fetchCategories()),
     loadInitialData: () => dispatch(me())
   }
 }

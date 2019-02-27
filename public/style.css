@@ -25,3 +25,40 @@ form div {
   font-size: 3em;
   text-align: center;
 }
+
+img {
+  width: 25vw;
+  height: 35vh;
+}
+
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product-homepage {
+  flex-direction: row;
+  padding: 3em;
+  justify-content: center;
+  text-align: center;
+}
+
+.link {
+  color: goldenrod;
+}
+
+.nav-bar {
+  justify-content: center;
+  text-align: center;
+}
+
+.single-product-view {
+  justify-content: center;
+  text-align: center;
+}
+
+.description {
+  width: 50%;
+  margin-left: 25%;
+}

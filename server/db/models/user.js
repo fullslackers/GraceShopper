@@ -4,15 +4,13 @@ const db = require('../db')
 
 const User = db.define('user', {
   firstName: {
-    type: STRING,
-    allowNull: false
+    type: STRING
   },
   middleInitial: {
     type: STRING
   },
   lastName: {
-    type: STRING,
-    allowNull: false
+    type: STRING
   },
   email: {
     type: STRING,

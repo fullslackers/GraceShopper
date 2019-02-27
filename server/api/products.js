@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Product, Category} = require('../db/models')
+const {Product, Category, ProductCategory} = require('../db/models')
 module.exports = router
 
 // All users can view all products and product by id
@@ -8,6 +8,15 @@ router.get('/', async (req, res, next) => {
   try {
     const allProducts = await Product.findAll({include: [Category]})
     res.json(allProducts)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/categories', async (req, res, next) => {
+  try {
+    const allCategories = await Category.findAll()
+    res.json(allCategories)
   } catch (err) {
     next(err)
   }

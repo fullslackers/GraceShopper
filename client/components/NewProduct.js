@@ -14,7 +14,7 @@ class NewProduct extends Component {
     }
   }
 
-  submitHandler = event => {
+  saveNewProduct = event => {
     event.preventDefault()
     if (this.state.title && this.state.price) {
       const newProduct = {}
@@ -26,7 +26,7 @@ class NewProduct extends Component {
     }
   }
 
-  changeHandler = event => {
+  changeFormFields = event => {
     this.setState({
       [event.target.name]: event.target.value
     })
@@ -36,46 +36,25 @@ class NewProduct extends Component {
     return (
       <div>
         <h1>Create New Product</h1>
-        <form onSubmit={this.submitHandler}>
+        <form onSubmit={this.saveNewProduct} onChange={this.changeFormFields}>
           <label htmlFor="title">Title: </label>
-          <input
-            name="title"
-            type="text"
-            value={this.state.title}
-            onChange={this.changeHandler}
-          />
+          <input name="title" type="text" value={this.state.title} />
 
           <label htmlFor="description">Description: </label>
           <input
             name="description"
             type="text"
             value={this.state.description}
-            onChange={this.changeHandler}
           />
 
           <label htmlFor="imageUrl">Image URL: </label>
-          <input
-            name="imageUrl"
-            type="text"
-            value={this.state.imageUrl}
-            onChange={this.changeHandler}
-          />
+          <input name="imageUrl" type="text" value={this.state.imageUrl} />
 
           <label htmlFor="price">Price: </label>
-          <input
-            name="price"
-            type="number"
-            value={this.state.price}
-            onChange={this.changeHandler}
-          />
+          <input name="price" type="number" value={this.state.price} />
 
           <label htmlFor="inventory">Inventory: </label>
-          <input
-            name="inventory"
-            type="number"
-            value={this.state.inventory}
-            onChange={this.changeHandler}
-          />
+          <input name="inventory" type="number" value={this.state.inventory} />
 
           <button type="submit">Submit</button>
         </form>

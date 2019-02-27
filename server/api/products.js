@@ -13,6 +13,15 @@ router.get('/', async (req, res, next) => {
   }
 })
 
+router.get('/categories', async (req, res, next) => {
+  try {
+    const allCategories = await Category.findAll()
+    res.json(allCategories)
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.get('/:productId', async (req, res, next) => {
   try {
     const whichProduct = await Product.findById(req.params.productId, {

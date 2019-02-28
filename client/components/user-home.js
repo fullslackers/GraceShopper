@@ -19,6 +19,9 @@ export class UserHome extends React.Component {
   render() {
     const {email} = this.props
     const orders = this.props.userOrders
+    if (orders.length === 0) {
+      return <h3>You don't have any orders</h3>
+    }
     return (
       <div>
         <h3>Welcome, {email}</h3>

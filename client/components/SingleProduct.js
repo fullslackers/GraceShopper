@@ -8,6 +8,7 @@ class SingleProduct extends Component {
     this.props.fetchSelectedProduct()
   }
   render() {
+    console.log(this.props.user)
     return (
       <div className="single-product-view">
         <h1>{this.props.selectedProduct.title}</h1>

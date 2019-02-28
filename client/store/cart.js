@@ -3,29 +3,31 @@
 // Action Types
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
-const UPDATE_CART = 'UPDATE_CART'
+const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
+const MERGE_CART = 'MERGE_CART'
 // const MERGE_CART = "MERGE_CART";
 
 // Action Creators
-const addToCart = product => ({
+export const addToCart = product => ({
   type: ADD_TO_CART,
   product
 })
 
-const removeFromCart = product => ({
+export const removeFromCart = product => ({
   type: REMOVE_FROM_CART,
   product
 })
 
-const updateCart = cart => ({
-  type: UPDATE_CART,
-  cart
+export const updateQuantity = (product, opType) => ({
+  type: UPDATE_QUANTITY,
+  product,
+  opType
 })
 
-// const mergeCart = cart => ({
-//   type: MERGE_CART,
-//   cart
-// });
+export const mergeCart = cart => ({
+  type: MERGE_CART,
+  cart
+})
 
 // Thunks
 
@@ -36,11 +38,33 @@ const updateCart = cart => ({
 const initialState = []
 
 const dispatchers = {
-  [ADD_TO_CART]: (state, action) => [...state, action.product],
+  [ADD_TO_CART]: (state, action) => {
+    const cart = [...state]
+    const foundItem = cart.find(item => item.id === action.product.id)
+    if (foundItem) foundItem.quantity++
+    else cart.push(action.product)
+    return cart
+  },
   [REMOVE_FROM_CART]: (state, action) => [
     ...state.filter(item => item.id !== action.product.id)
   ],
-  [UPDATE_CART]: (state, action) => [
+  [UPDATE_QUANTITY]: (state, action) => {
+    if (action.opType === 'increment')
+      return [
+        ...state.map(item => {
+          if (item.id === action.product.id) item.quantity++
+          return item
+        })
+      ]
+    if (action.opType === 'decrement')
+      return [
+        ...state.map(item => {
+          if (item.id === action.product.id) item.quantity--
+          return item
+        })
+      ]
+  },
+  [MERGE_CART]: (state, action) => [
     ...state.map(stateProduct => {
       action.cart.forEach(cartProduct => {
         if (cartProduct.id === stateProduct.id)

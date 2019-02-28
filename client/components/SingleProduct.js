@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchSelectedProduct} from './../store/products'
 import {Link} from 'react-router-dom'
+import {addToCart} from './../store/cart'
 
 class SingleProduct extends Component {
   componentDidMount() {
@@ -24,6 +25,14 @@ class SingleProduct extends Component {
         <Link to={`/products/${this.props.selectedProduct.id}/edit`}>
           Edit Product
         </Link>
+        <button
+          type="button"
+          onClick={() =>
+            this.props.addToCart({...this.props.selectedProduct, quantity: 1})
+          }
+        >
+          Add to Cart
+        </button>
       </div>
     )
   }
@@ -34,7 +43,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     fetchSelectedProduct: () => {
       const productId = ownProps.match.params.productId
       dispatch(fetchSelectedProduct(productId))
-    }
+    },
+    addToCart: product => dispatch(addToCart(product))
   }
 }
 const mapStateToProps = (state, ownProps) => {

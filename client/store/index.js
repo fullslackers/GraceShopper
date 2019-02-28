@@ -6,6 +6,7 @@ import currentUser from './SingleUser'
 import users from './allusers'
 import products from './products'
 import categories from './categories'
+import cart from './cart'
 import {persistStore, persistReducer} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2'
@@ -14,7 +15,8 @@ const reducer = combineReducers({
   users,
   currentUser,
   products,
-  categories
+  categories,
+  cart
 })
 
 const middleware = composeWithDevTools(

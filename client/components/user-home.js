@@ -27,8 +27,8 @@ export class UserHome extends React.Component {
           <tbody>
             <tr>
               <th>Order Number</th>
-              <th>Quantity</th>
-              <th>Price</th>
+              <th>Order Date</th>
+              <th>Status</th>
             </tr>
             {orders.map(order => {
               return (
@@ -38,8 +38,8 @@ export class UserHome extends React.Component {
                       {order.id}
                     </Link>
                   </td>
-                  <td>{order.quantity}</td>
-                  <td>{order.price}</td>
+                  <td>{order.orderDate.slice(0, 10)}</td>
+                  <td>{order.status}</td>
                 </tr>
               )
             })}

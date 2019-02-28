@@ -16,6 +16,15 @@ const Order = db.define('order', {
   price: {
     type: Sequelize.DECIMAL(19, 2),
     allowNull: false
+  },
+  status: {
+    type: Sequelize.ENUM,
+    values: ['created', 'processing', 'cancelled', 'completed'],
+    defaultValue: 'created'
+  },
+  orderDate: {
+    type: Sequelize.DATE,
+    defaultValue: Sequelize.NOW
   }
 })
 

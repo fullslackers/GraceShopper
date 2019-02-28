@@ -19,10 +19,20 @@ export class HomePage extends React.Component {
       this.setState({selectedOption: filter})
       this.setState({isSelected: true})
       this.props.filteredProducts(filter)
+    } else {
+      this.props.filteredProducts()
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps.location !== this.props.location) {
+      const filter = this.props.location.pathname.split('/')[2]
+      if (!filter) {
+        this.props.filteredProducts()
+      } else {
+        this.props.filteredProducts(filter)
+      }
+    }
     if (this.state.isSelected) {
       this.props.filteredProducts(this.state.selectedOption)
       this.setState({
@@ -41,24 +51,31 @@ export class HomePage extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <select onChange={this.handleChange}>
-          <option>sort by category</option>
-          {this.props.categories.map(category => (
-            <option key={category.id}>{category.title}</option>
-          ))}
-        </select>
-        <div className="product-container">
-          {this.props.products.map(product => {
-            return <ProductForHomePage key={product.id} product={product} />
-          })}
-        </div>
-      </div>
+    const filter = this.props.location.pathname.split('/')[2]
+    const categoriesTitle = this.props.categories.map(
+      category => category.title
     )
+    if (!categoriesTitle.includes(filter) && filter) {
+      return <div>not found</div>
+    } else {
+      return (
+        <div>
+          <select onChange={this.handleChange}>
+            <option>sort by category</option>
+            {this.props.categories.map(category => (
+              <option key={category.id}>{category.title}</option>
+            ))}
+          </select>
+          <div className="product-container">
+            {this.props.products.map(product => {
+              return <ProductForHomePage key={product.id} product={product} />
+            })}
+          </div>
+        </div>
+      )
+    }
   }
 }
-
 const mapState = state => {
   return {
     products: state.products.allProducts,

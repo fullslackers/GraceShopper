@@ -43,13 +43,23 @@ router.get(
   adminCheckMiddleware,
   async (req, res, next) => {
     try {
-      const whichOrder = await Order.findOne({
-        include: [Product],
-        where: {
-          id: req.params.orderId,
-          userId: req.user.id
-        }
-      })
+      let whichOrder
+      if (req.user.isAdmin) {
+        whichOrder = await Order.findOne({
+          include: [Product],
+          where: {
+            id: req.params.orderId
+          }
+        })
+      } else {
+        whichOrder = await Order.findOne({
+          include: [Product],
+          where: {
+            id: req.params.orderId,
+            userId: req.user.id
+          }
+        })
+      }
       if (whichOrder) res.json(whichOrder)
       else res.sendStatus(401)
     } catch (err) {

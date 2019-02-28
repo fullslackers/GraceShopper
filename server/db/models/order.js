@@ -2,20 +2,19 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Order = db.define('order', {
-  quantity: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    validate: {
-      isNegative: function(val) {
-        if (val < 0) {
-          throw new Error("Quantity can't be a negative number")
-        }
-      }
-    }
-  },
-  price: {
-    type: Sequelize.DECIMAL(19, 2),
-    allowNull: false
+  // quantity: {
+  //   type: Sequelize.INTEGER,
+  //   allowNull: false,
+  //   validate: {
+  //     isNegative: function(val) {
+  //       if (val < 0) {
+  //         throw new Error("Quantity can't be a negative number")
+  //       }
+  //     }
+  //   }
+  // },
+  totalPrice: {
+    type: Sequelize.DECIMAL(19, 2)
   },
   status: {
     type: Sequelize.ENUM,
@@ -25,7 +24,8 @@ const Order = db.define('order', {
   orderDate: {
     type: Sequelize.DATE,
     defaultValue: Sequelize.NOW
-  }
+  },
+  copyProducts: Sequelize.ARRAY(Sequelize.TEXT)
 })
 
 module.exports = Order

@@ -10,7 +10,8 @@ import SingleProduct from './components/SingleProduct'
 import NewProduct from './components/NewProduct'
 import EditProduct from './components/EditProduct'
 import {fetchCategories} from './store/categories'
-
+import {NewReview} from './components/NewReview'
+import SingleOrder from './components/SingleOrder'
 /**
  * COMPONENT
  */
@@ -30,10 +31,16 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/" component={HomePage} />
+        <Route
+          exact
+          path="/products/:productId/reviews/new"
+          component={NewReview}
+        />
         <Route exact path="/products/new" component={NewProduct} />
         <Route path="/products/:productId/edit" component={EditProduct} />
         <Route path="/products/:productId" component={SingleProduct} />
         <Route exact path="/categories/:category" component={HomePage} />
+        <Route exact path="/orders/:orderId" component={SingleOrder} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}

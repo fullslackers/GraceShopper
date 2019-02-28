@@ -8,7 +8,10 @@ class SingleProduct extends Component {
   componentDidMount() {
     this.props.fetchSelectedProduct()
   }
+
   render() {
+    const {isAdmin} = this.props
+
     return (
       <div className="single-product-view">
         <h1>{this.props.selectedProduct.title}</h1>
@@ -22,9 +25,13 @@ class SingleProduct extends Component {
           Item #: {this.props.selectedProduct.id} / Inventory:
           {this.props.selectedProduct.inventory}
         </h5>
-        <Link to={`/products/${this.props.selectedProduct.id}/edit`}>
-          Edit Product
-        </Link>
+        {isAdmin ? (
+          <Link to={`/products/${this.props.selectedProduct.id}/edit`}>
+            Edit Product
+          </Link>
+        ) : (
+          ''
+        )}
         <button
           type="button"
           onClick={() =>
@@ -49,7 +56,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 const mapStateToProps = (state, ownProps) => {
   return {
-    selectedProduct: state.products.selectedProduct
+    selectedProduct: state.products.selectedProduct,
+    isAdmin: state.currentUser.isAdmin
   }
 }
 

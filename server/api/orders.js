@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order} = require('../db/models')
+const {Order, Product} = require('../db/models')
 const {loginCheckMiddleware, adminCheckMiddleware} = require('./middleware')
 module.exports = router
 
@@ -19,15 +19,35 @@ router.get('/', adminCheckMiddleware, async (req, res, next) => {
 // Associated non-admin User instance should also have access to these specific routes
 
 router.get(
+  '/user/:userId',
+  loginCheckMiddleware,
+  adminCheckMiddleware,
+  async (req, res, next) => {
+    try {
+      const whichOrders = await Order.findAll({
+        where: {
+          userId: req.params.userId
+        }
+      })
+      if (whichOrders) res.json(whichOrders)
+      else res.sendStatus(401)
+    } catch (err) {
+      next(err)
+    }
+  }
+)
+
+router.get(
   '/:orderId',
   loginCheckMiddleware,
   adminCheckMiddleware,
   async (req, res, next) => {
     try {
       const whichOrder = await Order.findOne({
+        include: [Product],
         where: {
           id: req.params.orderId,
-          userId: req.params.userId
+          userId: req.user.id
         }
       })
       if (whichOrder) res.json(whichOrder)

@@ -45,7 +45,7 @@ class SingleOrder extends Component {
                     </Link>
                   </td>
                   <td>{product.price}</td>
-                  <td>{product.quantity}</td>
+                  {product.quantity ? <td>{product.quantity}</td> : <td>1</td>}
                   <td>
                     <form
                       action={`/products/${product.id}/reviews/new`}

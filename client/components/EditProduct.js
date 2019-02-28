@@ -41,6 +41,9 @@ class EditProduct extends Component {
   }
 
   render() {
+    if (!this.props.isAdmin) {
+      return <div>You are not an admin</div>
+    }
     return (
       <div>
         <h1>Edit Product</h1>
@@ -98,7 +101,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    selectedProduct: state.products.selectedProduct
+    selectedProduct: state.products.selectedProduct,
+    isAdmin: state.currentUser.isAdmin
   }
 }
 

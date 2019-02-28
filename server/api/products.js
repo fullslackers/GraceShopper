@@ -1,5 +1,6 @@
 const router = require('express').Router()
-const {Product, Category, ProductCategory} = require('../db/models')
+const {Product, Category} = require('../db/models')
+const {adminCheckMiddleware} = require('./middleware')
 module.exports = router
 
 // All users can view all products and product by id
@@ -55,7 +56,7 @@ router.get('/:productId', async (req, res, next) => {
 
 // Only administrators can create or edit products...add check for isAdmin?
 
-router.post('/', async (req, res, next) => {
+router.post('/', adminCheckMiddleware, async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body)
     res.status(201).json(newProduct)
@@ -64,7 +65,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.put('/:productId', async (req, res, next) => {
+router.put('/:productId', adminCheckMiddleware, async (req, res, next) => {
   try {
     const whichProduct = await Product.findById(req.params.productId)
     const updatedProduct = await whichProduct.update(req.body)
@@ -74,7 +75,7 @@ router.put('/:productId', async (req, res, next) => {
   }
 })
 
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', adminCheckMiddleware, async (req, res, next) => {
   try {
     await req.params.productId.destroy()
     res.status(204).end()

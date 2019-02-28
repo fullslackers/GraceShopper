@@ -33,6 +33,9 @@ class NewProduct extends Component {
   }
 
   render() {
+    if (!this.props.isAdmin) {
+      return <div>You are not an admin</div>
+    }
     return (
       <div>
         <h1>Create New Product</h1>
@@ -70,8 +73,14 @@ class NewProduct extends Component {
   }
 }
 
+const mapState = state => {
+  return {
+    isAdmin: state.currentUser.isAdmin
+  }
+}
+
 const mapDispatchToProps = dispatch => ({
   createProduct: product => dispatch(createProduct(product))
 })
 
-export default connect(null, mapDispatchToProps)(NewProduct)
+export default connect(mapState, mapDispatchToProps)(NewProduct)

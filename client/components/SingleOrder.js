@@ -48,9 +48,7 @@ class SingleOrder extends Component {
                   <td>{product.quantity}</td>
                   <td>
                     <form
-                      action={`/products/${product.id}/reviews/${
-                        this.props.currentUser.id
-                      }/new`}
+                      action={`/products/${product.id}/reviews/new`}
                       method="get"
                     >
                       <input

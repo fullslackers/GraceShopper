@@ -31,12 +31,12 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/products/new" component={NewProduct} />
         <Route
           exact
-          path="/products/:productId/reviews/:userId/new"
+          path="/products/:productId/reviews/new"
           component={NewReview}
         />
+        <Route exact path="/products/new" component={NewProduct} />
         <Route path="/products/:productId/edit" component={EditProduct} />
         <Route path="/products/:productId" component={SingleProduct} />
         <Route exact path="/categories/:category" component={HomePage} />

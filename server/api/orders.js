@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order} = require('../db/models')
+const {Order, Product} = require('../db/models')
 const {loginCheckMiddleware, adminCheckMiddleware} = require('./middleware')
 module.exports = router
 
@@ -44,9 +44,10 @@ router.get(
   async (req, res, next) => {
     try {
       const whichOrder = await Order.findOne({
+        include: [Product],
         where: {
           id: req.params.orderId,
-          userId: req.params.userId
+          userId: req.user.id
         }
       })
       if (whichOrder) res.json(whichOrder)

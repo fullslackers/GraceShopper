@@ -98,28 +98,23 @@ const productData = [
 
 const orderData = [
   {
-    quantity: 4,
-    price: 42.5,
+    totalPrice: 42.5,
     status: 'completed'
   },
   {
-    quantity: 1,
-    price: 2.5,
+    totalPrice: 2.5,
     status: 'processing'
   },
   {
-    quantity: 45,
-    price: 78.0,
+    totalPrice: 78.0,
     status: 'cancelled'
   },
   {
-    quantity: 4,
-    price: 14.25,
+    totalPrice: 14.25,
     status: 'completed'
   },
   {
-    quantity: 10,
-    price: 12.5,
+    totalPrice: 12.5,
     status: 'completed'
   }
 ]

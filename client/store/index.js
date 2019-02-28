@@ -17,7 +17,7 @@ const reducer = combineReducers({
   currentUser,
   products,
   categories,
-  cart
+  cart,
   orders
 })
 

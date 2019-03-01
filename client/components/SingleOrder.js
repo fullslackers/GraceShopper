@@ -20,11 +20,10 @@ class SingleOrder extends Component {
     const orderDate = selectedOrder.orderDate
       ? selectedOrder.orderDate.slice(0, 10)
       : ''
-    console.log(orderDate)
     return (
       <div>
         <h3>Order Detail</h3>
-        <h5>order number: {selectedOrder.id}</h5>
+        <h5>order number: {selectedOrder.orderNumber}</h5>
         <h5>order date: {orderDate}</h5>
         <h5>order status: {selectedOrder.status}</h5>
         <table>

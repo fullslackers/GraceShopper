@@ -38,7 +38,7 @@ export class UserHome extends React.Component {
                 <tr key={order.id}>
                   <td>
                     <Link className="link" to={`/orders/${order.id}`}>
-                      {order.id}
+                      {order.orderNumber}
                     </Link>
                   </td>
                   <td>{order.orderDate.slice(0, 10)}</td>

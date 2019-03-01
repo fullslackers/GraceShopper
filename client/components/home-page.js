@@ -1,16 +1,20 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {ProductForHomePage} from './productForHomePage'
-import {fetchProducts} from '../store/products'
+import {setProducts, fetchProducts} from '../store/products'
 
 export class HomePage extends React.Component {
   constructor() {
     super()
     this.state = {
       selectedOption: null,
-      isSelected: false
+      isSelected: false,
+      searchValue: ''
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleSearchChange = this.handleSearchChange.bind(this)
+    this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
+    this.handleSearchReset = this.handleSearchReset.bind(this)
   }
 
   componentDidMount() {
@@ -50,6 +54,28 @@ export class HomePage extends React.Component {
     else this.props.history.push(`/categories/${selectedOption}`)
   }
 
+  handleSearchChange(e) {
+    e.preventDefault()
+    this.setState({searchValue: e.target.value})
+  }
+
+  handleSearchSubmit(e) {
+    if (this.state.searchValue === '') e.preventDefault()
+    e.preventDefault()
+    const filteredBySearch = this.props.products.filter(product =>
+      product.title
+        .toLowerCase()
+        .includes(`${this.state.searchValue.toLowerCase()}`)
+    )
+    this.props.searchProducts(filteredBySearch)
+    this.setState({searchValue: ''})
+  }
+
+  handleSearchReset(e) {
+    e.preventDefault()
+    this.props.filteredProducts(this.state.selectedOption)
+  }
+
   render() {
     const filter = this.props.location.pathname.split('/')[2]
     const categoriesTitle = this.props.categories.map(
@@ -66,6 +92,17 @@ export class HomePage extends React.Component {
               <option key={category.id}>{category.title}</option>
             ))}
           </select>
+          <form
+            onChange={this.handleSearchChange}
+            onSubmit={this.handleSearchSubmit}
+          >
+            <label htmlFor="search">Search: </label>
+            <input name="search" type="text" value={this.state.searchValue} />
+            <button type="submit">Search it!</button>
+            <button type="reset" onClick={this.handleSearchReset}>
+              Reset
+            </button>
+          </form>
           <div className="product-container">
             {this.props.products.map(product => {
               return <ProductForHomePage key={product.id} product={product} />
@@ -85,7 +122,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    filteredProducts: filterr => dispatch(fetchProducts(filterr))
+    filteredProducts: filterr => dispatch(fetchProducts(filterr)),
+    searchProducts: searchValue => dispatch(setProducts(searchValue))
   }
 }
 

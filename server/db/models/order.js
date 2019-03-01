@@ -16,6 +16,10 @@ const Order = db.define('order', {
   totalPrice: {
     type: Sequelize.DECIMAL(19, 2)
   },
+  orderNumber: {
+    type: Sequelize.DataTypes.UUID,
+    defaultValue: Sequelize.DataTypes.UUIDV4
+  },
   status: {
     type: Sequelize.ENUM,
     values: ['created', 'processing', 'cancelled', 'completed'],

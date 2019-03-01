@@ -47,20 +47,18 @@ class SingleOrder extends Component {
                   <td>{product.price}</td>
                   {product.quantity ? <td>{product.quantity}</td> : <td>1</td>}
                   <td>
-                    <form
-                      action={`/products/reviews/${product.id}/${
-                        this.props.currentUser.id
-                      }/new`}
-                      method="get"
-                    >
-                      <input
-                        type="submit"
-                        value="write a review"
-                        name="Submit"
-                        id="frm1_submit"
-                      />
-                    </form>
-                    {/* <Link to="/products/reviews/new" params={{ productId: `${product.id}` }}>Write a review</Link> */}
+                    <button type="button">
+                      <Link
+                        to={{
+                          pathname: '/products/reviews/new',
+                          state: {
+                            productId: `${product.id}`
+                          }
+                        }}
+                      >
+                        Write a review
+                      </Link>
+                    </button>
                   </td>
                 </tr>
               )

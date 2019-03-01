@@ -34,10 +34,11 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route exact path="/" component={HomePage} />
         <Route exact path="/cart" component={Cart} />
-        <Route
+        <Route path="/products/reviews/new" component={NewReview} />
+        {/* <Route
           path="/products/reviews/:productId/:userId/new"
           component={NewReview}
-        />
+        /> */}
         {/* <Route
           path="/products/reviews/new"
           component={NewReview}

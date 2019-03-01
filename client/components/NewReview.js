@@ -12,7 +12,18 @@ class NewReview extends React.Component {
         rating: null
       },
       isSubmitted: false,
-      isMistake: true
+      isMistake: false
+    }
+  }
+
+  componentDidUpdate() {
+    if (this.state.isSubmitted) {
+      let path = '/home/'
+      this.props.history.push(path)
+      this.setState({
+        isSubmitted: false,
+        isMistake: false
+      })
     }
   }
 
@@ -33,20 +44,15 @@ class NewReview extends React.Component {
 
   changeFormFields = event => {
     const description = event.target.value
-    const productId = this.props.location.pathname.split('/')[3]
+    //const productId = this.props.location.pathname.split('/')[3]
+    const productId = this.props.location.state.productId
     const rating = '5'
     this.setState({newReview: {description, rating, productId}})
     console.log(this.state.newReview)
   }
 
   render() {
-    const userIdWhoCanWriteReview = this.props.location.pathname.split('/')[4]
-    //for what products user can write a review?
-    console.log(this.props.params)
-    if (
-      this.props.currentUser.id === Number(userIdWhoCanWriteReview) ||
-      this.props.currentUser.isAdmin
-    ) {
+    if (this.props.location.state) {
       return (
         <div>
           <h1>Write a review</h1>
@@ -54,11 +60,15 @@ class NewReview extends React.Component {
             <input type="text" onChange={this.changeFormFields} />
             <button type="submit">Submit</button>
           </form>
+          {this.state.isMistake ? (
+            <div className="center">You have to write a review!</div>
+          ) : (
+            ''
+          )}
         </div>
       )
     }
-
-    return <div />
+    return <div>You need to go to your profile to write a review</div>
   }
 }
 

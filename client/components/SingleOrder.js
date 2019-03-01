@@ -48,7 +48,9 @@ class SingleOrder extends Component {
                   {product.quantity ? <td>{product.quantity}</td> : <td>1</td>}
                   <td>
                     <form
-                      action={`/products/${product.id}/reviews/new`}
+                      action={`/products/reviews/${product.id}/${
+                        this.props.currentUser.id
+                      }/new`}
                       method="get"
                     >
                       <input
@@ -58,6 +60,7 @@ class SingleOrder extends Component {
                         id="frm1_submit"
                       />
                     </form>
+                    {/* <Link to="/products/reviews/new" params={{ productId: `${product.id}` }}>Write a review</Link> */}
                   </td>
                 </tr>
               )

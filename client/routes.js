@@ -11,7 +11,7 @@ import NewProduct from './components/NewProduct'
 import EditProduct from './components/EditProduct'
 import {fetchCategories} from './store/categories'
 import Cart from './components/Cart'
-import {NewReview} from './components/NewReview'
+import NewReview from './components/NewReview'
 import SingleOrder from './components/SingleOrder'
 
 /**
@@ -35,10 +35,13 @@ class Routes extends Component {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/cart" component={Cart} />
         <Route
-          exact
-          path="/products/:productId/reviews/new"
+          path="/products/reviews/:productId/:userId/new"
           component={NewReview}
         />
+        {/* <Route
+          path="/products/reviews/new"
+          component={NewReview}
+        /> */}
         <Route exact path="/products/new" component={NewProduct} />
         <Route path="/products/:productId/edit" component={EditProduct} />
         <Route path="/products/:productId" component={SingleProduct} />

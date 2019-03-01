@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const {Product, Category} = require('../db/models')
-const {adminCheckMiddleware} = require('./middleware')
+const {Product, Category, Review} = require('../db/models')
+const {adminCheckMiddleware, loginCheckMiddleware} = require('./middleware')
 module.exports = router
 
 // All users can view all products and product by id
@@ -18,6 +18,15 @@ router.get('/categories', async (req, res, next) => {
   try {
     const allCategories = await Category.findAll()
     res.json(allCategories)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/reviews', async (req, res, next) => {
+  try {
+    const allReviews = await Review.findAll()
+    res.json(allReviews)
   } catch (err) {
     next(err)
   }
@@ -60,6 +69,18 @@ router.post('/', adminCheckMiddleware, async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body)
     res.status(201).json(newProduct)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.post('/reviews', async (req, res, next) => {
+  try {
+    const userId = req.user.id
+    const data = req.body
+    const review = {...data, userId}
+    const newReview = await Review.create(review)
+    res.status(201).json(newReview)
   } catch (err) {
     next(err)
   }

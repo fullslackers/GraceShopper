@@ -45,19 +45,20 @@ class SingleOrder extends Component {
                     </Link>
                   </td>
                   <td>{product.price}</td>
-                  <td>{product.quantity}</td>
+                  {product.quantity ? <td>{product.quantity}</td> : <td>1</td>}
                   <td>
-                    <form
-                      action={`/products/${product.id}/reviews/new`}
-                      method="get"
-                    >
-                      <input
-                        type="submit"
-                        value="write a review"
-                        name="Submit"
-                        id="frm1_submit"
-                      />
-                    </form>
+                    <button type="button">
+                      <Link
+                        to={{
+                          pathname: '/products/reviews/new',
+                          state: {
+                            productId: `${product.id}`
+                          }
+                        }}
+                      >
+                        Write a review
+                      </Link>
+                    </button>
                   </td>
                 </tr>
               )

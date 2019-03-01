@@ -18,45 +18,45 @@ router.get('/', adminCheckMiddleware, async (req, res, next) => {
 
 // Associated non-admin User instance should also have access to these specific routes
 
-router.get(
-  '/user/:userId',
-  loginCheckMiddleware,
-  adminCheckMiddleware,
-  async (req, res, next) => {
-    try {
-      const whichOrders = await Order.findAll({
+router.get('/user/:userId', loginCheckMiddleware, async (req, res, next) => {
+  try {
+    const whichOrders = await Order.findAll({
+      where: {
+        userId: req.params.userId
+      }
+    })
+    if (whichOrders) res.json(whichOrders)
+    else res.sendStatus(401)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:orderId', loginCheckMiddleware, async (req, res, next) => {
+  try {
+    let whichOrder
+    if (req.user.isAdmin) {
+      whichOrder = await Order.findOne({
+        include: [Product],
         where: {
-          userId: req.params.userId
+          id: req.params.orderId
         }
       })
-      if (whichOrders) res.json(whichOrders)
-      else res.sendStatus(401)
-    } catch (err) {
-      next(err)
-    }
-  }
-)
-
-router.get(
-  '/:orderId',
-  loginCheckMiddleware,
-  adminCheckMiddleware,
-  async (req, res, next) => {
-    try {
-      const whichOrder = await Order.findOne({
+    } else {
+      whichOrder = await Order.findOne({
         include: [Product],
         where: {
           id: req.params.orderId,
           userId: req.user.id
         }
       })
-      if (whichOrder) res.json(whichOrder)
-      else res.sendStatus(401)
-    } catch (err) {
-      next(err)
     }
+    if (whichOrder) res.json(whichOrder)
+    else res.sendStatus(401)
+  } catch (err) {
+    next(err)
   }
-)
+})
 
 // Non-admin user only (completed sale)
 

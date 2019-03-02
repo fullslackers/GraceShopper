@@ -6,7 +6,13 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
   <div className="nav-bar">
-    <Link className="link" to="/">
+    <Link
+      className="link"
+      to={{pathname: '/', state: {resetCategory: true}}}
+      onClick={() => {
+        window.sessionStorage.setItem('resetCategory', true)
+      }}
+    >
       <h1>Pristine Pencillorum</h1>
     </Link>
     <nav>

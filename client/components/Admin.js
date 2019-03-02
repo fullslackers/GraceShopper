@@ -1,8 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {fetchSelectedUserOrders} from '../store/orders'
 import {Link} from 'react-router-dom'
+import {fetchOrders} from '../store/orders'
+import {fetchUsers} from '../store/allusers'
+import {fetchCategories} from '../store/categories'
+
 /**
  * COMPONENT
  */
@@ -12,53 +15,36 @@ export class UserHome extends React.Component {
   }
 
   componentDidMount() {
-    const {id} = this.props.currentUser
-    this.props.fetchUserOrders(id)
+    this.props.fetchAllOrders()
+    this.props.fetchAllUsers()
+    this.props.fetchAllCategories()
   }
 
   render() {
-    const {email, firstName, lastName, isAdmin} = this.props.currentUser
-    const orders = this.props.userOrders
-    const name = firstName ? ` ${firstName}` : ''
-    const noOrders =
-      orders.length === 0 ? `You haven't place any orders yet!` : ''
+    const {
+      isAdmin,
+      allUsers,
+      allOrders,
+      allCategories,
+      allProducts
+    } = this.props
     return (
       <div>
-        <h1>My Account</h1>
-        <h3>Hello{name}!</h3>
-        {firstName || lastName ? (
-          <h5>
-            Name: {firstName} {lastName}
-          </h5>
-        ) : (
-          ''
-        )}
-        <h5>Email: {email}</h5>
-        {isAdmin ? <Link to={{pathname: '/admin'}}>Go to Admin Page</Link> : ''}
-        <h4>Your orders</h4>
-        <table>
-          <tbody>
-            <tr>
-              <th>Order Number</th>
-              <th>Order Date</th>
-              <th>Status</th>
-            </tr>
-            {orders.map(order => {
-              return (
-                <tr key={order.id}>
-                  <td>
-                    <Link className="link" to={`/orders/${order.id}`}>
-                      {order.orderNumber}
-                    </Link>
-                  </td>
-                  <td>{order.orderDate.slice(0, 10)}</td>
-                  <td>{order.status}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-        <div>{noOrders}</div>
+        <div>users: {allUsers.length}</div>
+        <div>orders: {allOrders.length}</div>
+        <div>products: {allProducts.length}</div>
+        <div>categories: {allCategories.length}</div>
+        <ul className="tabClear">
+          <li>
+            <Link to="allUsers">all users</Link>
+          </li>
+          <li>
+            <Link to="allOrders">all orders</Link>
+          </li>
+          <li>
+            <Link to="allCatwgories">all categories</Link>
+          </li>
+        </ul>
       </div>
     )
   }
@@ -70,12 +56,18 @@ export class UserHome extends React.Component {
 const mapState = state => {
   return {
     isAdmin: state.currentUser.isAdmin,
-    userOrders: state.orders.userOrders.isAdmin
+    allUsers: state.users,
+    allOrders: state.orders.allOrders,
+    allCategories: state.categories,
+    allProducts: state.products.allProducts
   }
 }
+
 const mapDispatch = dispatch => {
   return {
-    fetchUserOrders: id => dispatch(fetchSelectedUserOrders(id))
+    fetchAllOrders: () => dispatch(fetchOrders()),
+    fetchAllUsers: () => dispatch(fetchUsers()),
+    fetchAllCategories: () => dispatch(fetchCategories())
   }
 }
 
@@ -84,6 +76,6 @@ export default connect(mapState, mapDispatch)(UserHome)
 /**
  * PROP TYPES
  */
-UserHome.propTypes = {
-  isAdmin: PropTypes.bool.isRequired
-}
+// UserHome.propTypes = {
+//   isAdmin: PropTypes.bool.isRequired,
+// }

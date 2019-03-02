@@ -7,6 +7,10 @@ import {Link} from 'react-router-dom'
  * COMPONENT
  */
 export class UserHome extends React.Component {
+  constructor() {
+    super()
+  }
+
   componentDidMount() {
     const {id} = this.props.currentUser
     this.props.fetchUserOrders(id)
@@ -14,16 +18,14 @@ export class UserHome extends React.Component {
 
   render() {
     const {email, firstName, lastName, isAdmin} = this.props.currentUser
-    const orders = this.props.curUserOrders
+    const orders = this.props.userOrders
     const name = firstName ? ` ${firstName}` : ''
     const noOrders =
       orders.length === 0 ? `You haven't place any orders yet!` : ''
-
     return (
       <div>
-        <h1 align="center">My Account</h1>
-        <h3 align="center">Hello{name}!</h3>
-        <h3>ACCOUNT DETAILS</h3>
+        <h1>My Account</h1>
+        <h3>Hello{name}!</h3>
         {firstName || lastName ? (
           <h5>
             Name: {firstName} {lastName}
@@ -32,16 +34,8 @@ export class UserHome extends React.Component {
           ''
         )}
         <h5>Email: {email}</h5>
-        {isAdmin ? (
-          <div align="right">
-            <button type="submit">
-              <Link to={{pathname: '/admin'}}>Go to Admin Page</Link>
-            </button>
-          </div>
-        ) : (
-          ''
-        )}
-        <h3>ORDER HISTORY</h3>
+        {isAdmin ? <Link to={{pathname: '/admin'}}>Go to Admin Page</Link> : ''}
+        <h4>Your orders</h4>
         <table>
           <tbody>
             <tr>
@@ -75,9 +69,8 @@ export class UserHome extends React.Component {
  */
 const mapState = state => {
   return {
-    currentUser: state.currentUser,
-    email: state.currentUser.email,
-    curUserOrders: state.orders.userOrders
+    isAdmin: state.currentUser.isAdmin,
+    userOrders: state.orders.userOrders.isAdmin
   }
 }
 const mapDispatch = dispatch => {
@@ -92,5 +85,5 @@ export default connect(mapState, mapDispatch)(UserHome)
  * PROP TYPES
  */
 UserHome.propTypes = {
-  email: PropTypes.string
+  isAdmin: PropTypes.bool.isRequired
 }

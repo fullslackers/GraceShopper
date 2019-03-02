@@ -2,6 +2,14 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {ProductForHomePage} from './productForHomePage'
 import {setProducts, fetchProducts} from '../store/products'
+import Pagination from 'react-js-pagination'
+
+const ProductsOnCurPage = (allProducts, curPage, itemsPerPage) => {
+  return allProducts.slice(
+    (curPage - 1) * itemsPerPage,
+    (curPage - 1) * itemsPerPage + itemsPerPage
+  )
+}
 
 export class HomePage extends React.Component {
   constructor() {
@@ -9,7 +17,9 @@ export class HomePage extends React.Component {
     this.state = {
       selectedOption: null,
       isSelected: false,
-      searchValue: ''
+      searchValue: '',
+      activePage: 1,
+      itemsCountPerPage: 1
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSearchChange = this.handleSearchChange.bind(this)
@@ -45,6 +55,10 @@ export class HomePage extends React.Component {
     }
   }
 
+  handlePageChange = pageNumber => {
+    this.setState({activePage: pageNumber})
+  }
+
   handleChange(event) {
     event.preventDefault()
     let selectedOption = event.target.value
@@ -77,6 +91,11 @@ export class HomePage extends React.Component {
   }
 
   render() {
+    const ProductsCurPage = ProductsOnCurPage(
+      this.props.products,
+      this.state.activePage,
+      this.state.itemsCountPerPage
+    )
     const filter = this.props.location.pathname.split('/')[2]
     const categoriesTitle = this.props.categories.map(
       category => category.title
@@ -104,10 +123,17 @@ export class HomePage extends React.Component {
             </button>
           </form>
           <div className="product-container">
-            {this.props.products.map(product => {
+            {ProductsCurPage.map(product => {
               return <ProductForHomePage key={product.id} product={product} />
             })}
           </div>
+          <Pagination
+            activePage={this.state.activePage}
+            itemsCountPerPage={this.state.itemsCountPerPage}
+            totalItemsCount={this.props.products.length}
+            pageRangeDisplayed={5}
+            onChange={this.handlePageChange}
+          />
         </div>
       )
     }

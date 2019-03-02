@@ -4,7 +4,7 @@ import {ProductForHomePage} from './productForHomePage'
 import {setProducts, fetchProducts} from '../store/products'
 import Pagination from 'react-js-pagination'
 
-const showProducts = (allProducts, curPage, itemsPerPage) => {
+const ProductsOnCurPage = (allProducts, curPage, itemsPerPage) => {
   return allProducts.slice(
     (curPage - 1) * itemsPerPage,
     (curPage - 1) * itemsPerPage + itemsPerPage
@@ -19,7 +19,7 @@ export class HomePage extends React.Component {
       isSelected: false,
       searchValue: '',
       activePage: 1,
-      itemsCountPerPage: 3
+      itemsCountPerPage: 1
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSearchChange = this.handleSearchChange.bind(this)
@@ -91,7 +91,7 @@ export class HomePage extends React.Component {
   }
 
   render() {
-    const shown = showProducts(
+    const ProductsCurPage = ProductsOnCurPage(
       this.props.products,
       this.state.activePage,
       this.state.itemsCountPerPage
@@ -122,6 +122,11 @@ export class HomePage extends React.Component {
               Reset
             </button>
           </form>
+          <div className="product-container">
+            {ProductsCurPage.map(product => {
+              return <ProductForHomePage key={product.id} product={product} />
+            })}
+          </div>
           <Pagination
             activePage={this.state.activePage}
             itemsCountPerPage={this.state.itemsCountPerPage}
@@ -129,11 +134,6 @@ export class HomePage extends React.Component {
             pageRangeDisplayed={5}
             onChange={this.handlePageChange}
           />
-          <div className="product-container">
-            {shown.map(product => {
-              return <ProductForHomePage key={product.id} product={product} />
-            })}
-          </div>
         </div>
       )
     }

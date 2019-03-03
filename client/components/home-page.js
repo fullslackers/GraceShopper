@@ -19,7 +19,7 @@ export class HomePage extends React.Component {
       isSelected: false,
       searchValue: '',
       activePage: 1,
-      itemsCountPerPage: 1
+      itemsCountPerPage: 3
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSearchChange = this.handleSearchChange.bind(this)

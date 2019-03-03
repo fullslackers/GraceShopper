@@ -79,3 +79,26 @@ img {
   width: 50%;
   margin-left: 25%;
 }
+
+.pagination {
+  display: inline-block;
+}
+ul.pagination {
+  list-style-type: none;
+}
+
+.pagination li {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.pagination li:hover:not(.active) {
+  background-color: #ddd;
+}

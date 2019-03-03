@@ -1,6 +1,8 @@
+/* eslint-disable complexity */
 import React from 'react'
 import {connect} from 'react-redux'
 import {createReview} from '../store/reviews'
+import StarRatingComponent from 'react-star-rating-component'
 
 class NewReview extends React.Component {
   constructor() {
@@ -8,11 +10,11 @@ class NewReview extends React.Component {
     this.state = {
       newReview: {
         description: '',
-        productId: null,
-        rating: null
+        productId: null
       },
       isSubmitted: false,
-      isMistake: false
+      isMistake: false,
+      rating: null
     }
   }
 
@@ -27,11 +29,17 @@ class NewReview extends React.Component {
     }
   }
 
+  onStarClick = (nextValue, prevValue, name) => {
+    this.setState({rating: nextValue})
+  }
+
   saveNewReview = event => {
     event.preventDefault()
-    console.log(this.state.newReview)
-    if (this.state.newReview.description) {
-      this.props.createReview(this.state.newReview)
+    if (this.state.newReview.description && this.state.rating) {
+      const rating = this.state.rating.toString()
+      const {description, productId} = this.state.newReview
+      const obj = {rating, description, productId}
+      this.props.createReview(obj)
       this.setState({
         isSubmitted: true
       })
@@ -44,31 +52,63 @@ class NewReview extends React.Component {
 
   changeFormFields = event => {
     const description = event.target.value
-    //const productId = this.props.location.pathname.split('/')[3]
-    const productId = this.props.location.state.productId
-    const rating = '5'
-    this.setState({newReview: {description, rating, productId}})
-    console.log(this.state.newReview)
+    const productId = Number(this.props.location.state.productId)
+    this.setState({newReview: {description, productId}})
   }
 
   render() {
+    let name = this.props.currentUser.email
+    const {firstName, lastName} = this.props.currentUser
+    const {rating} = this.state
+    if (firstName) name = firstName
+    if (lastName && firstName) name = name + lastName.slice(0, 1).toUpperCase()
+    let text
+    if (this.state.isMistake && !rating && this.state.newReview.description)
+      text = 'You have to give a star rating'
+    else
+      text =
+        this.state.isMistake &&
+        this.state.newReview.description === '' &&
+        this.state.rating
+          ? 'You have to write a review!'
+          : 'You have to write a review and give a star rating!'
+
     if (this.props.location.state) {
       return (
         <div>
-          <h1>Write a review</h1>
+          <h1>{name}'s Review</h1>
+          <div>
+            {this.state.rating ? (
+              <h2>Thank you for {rating} star review!</h2>
+            ) : (
+              <h3>Give a star review</h3>
+            )}
+            <StarRatingComponent
+              name="rate1"
+              starCount={5}
+              value={rating}
+              onStarClick={this.onStarClick}
+            />
+          </div>
+          <br />
           <form onSubmit={this.saveNewReview}>
-            <input type="text" onChange={this.changeFormFields} />
-            <button type="submit">Submit</button>
+            <textarea
+              type="text"
+              rows="4"
+              cols="50"
+              name="review"
+              placeholder="write a review"
+              onChange={this.changeFormFields}
+            />
+            <br />
+            <br />
+            <input type="submit" className="btn btn-default" />
           </form>
-          {this.state.isMistake ? (
-            <div className="center">You have to write a review!</div>
-          ) : (
-            ''
-          )}
+          {this.state.isMistake ? <div>{text}</div> : ''}
         </div>
       )
     }
-    return <div>You need to go to your profile to write a review</div>
+    return <h3>You need to go to your profile to write a review</h3>
   }
 }
 

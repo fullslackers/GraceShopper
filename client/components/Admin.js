@@ -5,19 +5,29 @@ import {Link} from 'react-router-dom'
 import {fetchOrders} from '../store/orders'
 import {fetchUsers} from '../store/allusers'
 import {fetchCategories} from '../store/categories'
+import {AllUsers} from './AllUsers'
+import {AllOrders} from './AllOrders'
+import {AllCategories} from './AllCategories'
 
 /**
  * COMPONENT
  */
-export class UserHome extends React.Component {
+export class AdminHome extends React.Component {
   constructor() {
     super()
+    this.state = {
+      selected: null
+    }
   }
 
   componentDidMount() {
     this.props.fetchAllOrders()
     this.props.fetchAllUsers()
     this.props.fetchAllCategories()
+  }
+
+  selectContent = event => {
+    event.preventDefault()
   }
 
   render() {
@@ -28,23 +38,25 @@ export class UserHome extends React.Component {
       allCategories,
       allProducts
     } = this.props
+
     return (
       <div>
         <div>users: {allUsers.length}</div>
         <div>orders: {allOrders.length}</div>
         <div>products: {allProducts.length}</div>
         <div>categories: {allCategories.length}</div>
-        <ul className="tabClear">
-          <li>
-            <Link to="allUsers">all users</Link>
-          </li>
-          <li>
-            <Link to="allOrders">all orders</Link>
-          </li>
-          <li>
-            <Link to="allCatwgories">all categories</Link>
-          </li>
-        </ul>
+
+        {/* <form className="tab" onSubmit={this.selectContent}>
+          <button className="tablinks" type="submit">
+            <Link to={{pathname: '/categories'}}>all categories</Link>
+          </button>
+          <button className="tablinks" type="submit" >
+            <Link to={{pathname: '/orders'}}>all orders</Link>
+          </button>
+          <button className="tablinks" type="submit" >
+            <Link to={{pathname: '/users'}}>all users</Link>
+          </button>
+        </form> */}
       </div>
     )
   }
@@ -71,7 +83,7 @@ const mapDispatch = dispatch => {
   }
 }
 
-export default connect(mapState, mapDispatch)(UserHome)
+export default connect(mapState, mapDispatch)(AdminHome)
 
 /**
  * PROP TYPES

@@ -1,5 +1,5 @@
 const crypto = require('crypto')
-const {BOOLEAN, STRING} = require('sequelize')
+const {ARRAY, BOOLEAN, JSON, STRING} = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
@@ -45,6 +45,10 @@ const User = db.define('user', {
     type: BOOLEAN,
     allowNull: false,
     defaultValue: false
+  },
+  cart: {
+    type: JSON,
+    defaultValue: {}
   }
 })
 

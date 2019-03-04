@@ -21,14 +21,16 @@ class SingleProduct extends Component {
         </h3>
 
         <h4>${this.props.selectedProduct.price}</h4>
-        <h5>
-          Item #: {this.props.selectedProduct.id} / Inventory:
-          {this.props.selectedProduct.inventory}
-        </h5>
         {isAdmin ? (
-          <Link to={`/products/${this.props.selectedProduct.id}/edit`}>
-            Edit Product
-          </Link>
+          <div>
+            <h5>
+              Item #: {this.props.selectedProduct.id} / Inventory:
+              {this.props.selectedProduct.inventory}
+            </h5>
+            <Link to={`/products/${this.props.selectedProduct.id}/edit`}>
+              Edit Product
+            </Link>
+          </div>
         ) : (
           ''
         )}

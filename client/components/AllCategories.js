@@ -2,7 +2,6 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 export const AllCategories = props => {
-  console.log(props)
   const categories = props.categories
   return (
     <table>

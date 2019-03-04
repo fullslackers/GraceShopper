@@ -9,8 +9,11 @@ const getCategories = categories => ({
   categories
 })
 
+const error = error => ({ type: 'ERROR', error })
+
 // Initial State
 const initialState = []
+
 
 // Thunk Creators
 export const fetchCategories = () => async dispatch => {
@@ -18,10 +21,12 @@ export const fetchCategories = () => async dispatch => {
     const {data} = await axios.get('/api/products/categories')
     dispatch(getCategories(data))
   } catch (error) {
-    console.log(error)
+    dispatch(error(error))
   }
 }
 
+// REVIEW: discuss alternate patterns for reducer cases
+//         and the value of consistency
 const dispatchers = {
   [GET_CATEGORIES]: (state, action) => action.categories
 }

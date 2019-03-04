@@ -19,6 +19,7 @@ export const editOrder = updatedOrder => ({type: EDIT_ORDER, updatedOrder})
 
 // THUNK-TIONS
 export const fetchOrders = () => {
+  // REVIEW: gotta handle errors
   return async dispatch => {
     const {data} = await axios.get('/api/orders')
     dispatch(setOrders(data))

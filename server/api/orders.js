@@ -18,6 +18,10 @@ router.get('/', adminCheckMiddleware, async (req, res, next) => {
 
 // Associated non-admin User instance should also have access to these specific routes
 
+// REVIEW:
+//   GET /orders/user/:userId
+//   vs
+//   GET /users/:userId/orders
 router.get('/user/:userId', loginCheckMiddleware, async (req, res, next) => {
   try {
     const whichOrders = await Order.findAll({

@@ -5,14 +5,70 @@ module.exports = router
 
 // All users can view all products and product by id
 
+// PUBLIC api
+//  - no matter who requests this endpoint
+//  - no matter when they request this endpoint
+//  - everybody should see tha same data
+//  - based purely on the url (include query string)
+//
+//  GET /products?page=2&category=sharpeners
+//    [...]
+//
+//  GET /products?page=2&category=sharpeners
+//    [...]
+//
+// PRIVATE api
+//  - only some people CAN request this
+//  - different people get different data back
+//
+//  GET /me
+//    { name: 'collin' }
+//    { name: 'finn' }
 router.get('/', async (req, res, next) => {
   try {
-    const allProducts = await Product.findAll({include: [Category]})
-    res.json(allProducts)
+    // GET /products?page=2
+    const page = req.query.page || 1
+    const perPage = 10
+    const currentPage = 1
+    const offset = (currentPage - 1) * perPage;
+    // select * from products limit 10 offset ${offset} order by updateAt desc
+    // REVIEW: pagination
+    const pageOfProducts = await Product.findAll({
+      include: [{model: Category, fields: ['title']}],
+      limit: perPage,
+      offset: offset,
+      orderBy: 'updatedAt desc'
+    })
+    res.json(pageOfProducts)
   } catch (err) {
     next(err)
   }
 })
+
+// includes
+// home page
+//   - list of products
+//   - prints title, image, price, category
+//
+// short-list
+//   - bullett list of title
+//
+// GET /products?page=1&category=sharpeners&include[]=Category&CategoryFields[]=title&CategoryFields[]=id
+// GraphQL
+// const query = `
+// query {
+//   products {
+//     id
+//     title
+//     price
+//     categories {
+//       id
+//       name
+//     }
+//   }
+// `
+// const result = await runGraphQL(query)
+// result.data.products[0].categories[0].name
 
 router.get('/categories', async (req, res, next) => {
   try {

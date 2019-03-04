@@ -141,7 +141,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 const mapStateToProps = (state, ownProps) => {
   return {
     selectedProduct: state.products.selectedProduct,
-    isAdmin: state.currentUser.isAdmin
+    isAdmin: state.currentUser.isAdmin,
+    badRequest: state.error.badRequest
   }
 }
 

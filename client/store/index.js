@@ -12,6 +12,28 @@ import storage from 'redux-persist/lib/storage'
 import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2'
 import orders from './orders'
 import reviews from './reviews'
+//import errors from './errors'
+
+function errorReducer (state={}, action) {
+  if (action.type === GET_USER) return { ...state, unauthenticatedError: undefined }
+  if (action.type !== 'ERROR') return state
+
+  const error = action.error;
+  if (error.response && error.response.status) {
+    if (error.response.status === 401) {
+      return {...state, unauthenticatedError: error }
+    }
+    else if (error.response.status === 403) {
+      return {...state, unauthorizedError: error }
+    }
+    else if (error.response.status === 400) {
+      return {...state, badRequest: error }
+    }
+  }
+  if (error) {
+    return {...state, unknownError: error}
+  }
+}
 
 const reducer = combineReducers({
   users,
@@ -20,7 +42,8 @@ const reducer = combineReducers({
   categories,
   cart,
   orders,
-  reviews
+  reviews,
+  error: errorReducer,
 })
 
 const middleware = composeWithDevTools(

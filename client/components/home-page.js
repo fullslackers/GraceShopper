@@ -13,6 +13,10 @@ import {
   Pagination
 } from 'semantic-ui-react'
 
+// GET /products
+// state.products = [/* all the products */]
+
+// REVIEW: how large is allProducts
 const ProductsOnCurPage = (allProducts, curPage, itemsPerPage) => {
   return allProducts.slice(
     (curPage - 1) * itemsPerPage,

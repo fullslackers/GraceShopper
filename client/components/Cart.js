@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import CartItem from './CartItem'
+import Checkout from './Checkout'
 import {checkout} from './../store/cart'
 
 class Cart extends Component {

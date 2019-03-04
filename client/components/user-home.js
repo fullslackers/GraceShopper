@@ -7,25 +7,41 @@ import {Link} from 'react-router-dom'
  * COMPONENT
  */
 export class UserHome extends React.Component {
-  constructor() {
-    super()
-  }
-
   componentDidMount() {
-    const id = this.props.id
+    const {id} = this.props.currentUser
     this.props.fetchUserOrders(id)
   }
 
   render() {
-    const {email} = this.props
-    const orders = this.props.userOrders
-    if (orders.length === 0) {
-      return <h3>You don't have any orders</h3>
-    }
+    const {email, firstName, lastName, isAdmin} = this.props.currentUser
+    const orders = this.props.curUserOrders
+    const name = firstName ? ` ${firstName}` : ''
+    const noOrders =
+      orders.length === 0 ? `You haven't place any orders yet!` : ''
+
     return (
       <div>
-        <h3>Welcome, {email}</h3>
-        <h4>Your orders</h4>
+        <h1 align="center">My Account</h1>
+        <h3 align="center">Hello{name}!</h3>
+        <h3>ACCOUNT DETAILS</h3>
+        {firstName || lastName ? (
+          <h5>
+            Name: {firstName} {lastName}
+          </h5>
+        ) : (
+          ''
+        )}
+        <h5>Email: {email}</h5>
+        {isAdmin ? (
+          <div align="right">
+            <button type="submit">
+              <Link to={{pathname: '/admin'}}>Go to Admin Page</Link>
+            </button>
+          </div>
+        ) : (
+          ''
+        )}
+        <h3>ORDER HISTORY</h3>
         <table>
           <tbody>
             <tr>
@@ -48,6 +64,7 @@ export class UserHome extends React.Component {
             })}
           </tbody>
         </table>
+        <div>{noOrders}</div>
       </div>
     )
   }
@@ -58,10 +75,9 @@ export class UserHome extends React.Component {
  */
 const mapState = state => {
   return {
+    currentUser: state.currentUser,
     email: state.currentUser.email,
-    id: state.currentUser.id,
-    isAdmin: state.currentUser.isAdmin,
-    userOrders: state.orders.userOrders
+    curUserOrders: state.orders.userOrders
   }
 }
 const mapDispatch = dispatch => ({

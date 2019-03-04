@@ -2,17 +2,22 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
-import {Login, Signup, UserHome} from './components'
+import {
+  Login,
+  Signup,
+  UserHome,
+  HomePage,
+  SingleProduct,
+  NewProduct,
+  EditProduct,
+  NewReview,
+  SingleOrder,
+  Cart,
+  Admin
+} from './components'
 import {me} from './store'
-import HomePage from './components/home-page'
 import {fetchProducts} from './store/products'
-import SingleProduct from './components/SingleProduct'
-import NewProduct from './components/NewProduct'
-import EditProduct from './components/EditProduct'
 import {fetchCategories} from './store/categories'
-import Cart from './components/Cart'
-import NewReview from './components/NewReview'
-import SingleOrder from './components/SingleOrder'
 
 /**
  * COMPONENT
@@ -34,15 +39,8 @@ class Routes extends Component {
         <Route path="/signup" component={Signup} />
         <Route exact path="/" component={HomePage} />
         <Route exact path="/cart" component={Cart} />
+        <Route exact path="/admin" component={Admin} />
         <Route path="/products/reviews/new" component={NewReview} />
-        {/* <Route
-          path="/products/reviews/:productId/:userId/new"
-          component={NewReview}
-        /> */}
-        {/* <Route
-          path="/products/reviews/new"
-          component={NewReview}
-        /> */}
         <Route exact path="/products/new" component={NewProduct} />
         <Route path="/products/:productId/edit" component={EditProduct} />
         <Route path="/products/:productId" component={SingleProduct} />

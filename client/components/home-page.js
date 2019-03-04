@@ -15,19 +15,20 @@ export class HomePage extends React.Component {
   constructor() {
     super()
     this.state = {
+      selected: 'sort by category',
       selectedOption: null,
       isSelected: false,
       searchValue: '',
       activePage: 1,
       itemsCountPerPage: 1
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSearchChange = this.handleSearchChange.bind(this)
-    this.handleSearchSubmit = this.handleSearchSubmit.bind(this)
-    this.handleSearchReset = this.handleSearchReset.bind(this)
   }
 
   componentDidMount() {
+    if (this.props.location.state)
+      this.props.location.state.resetCategory = false
+    let selected = window.sessionStorage.getItem('selected')
+    this.setState({selected: selected})
     const filter = this.props.location.pathname.split('/')[2]
     if (filter) {
       this.setState({selectedOption: filter})
@@ -39,6 +40,13 @@ export class HomePage extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    if (this.props.location.state) {
+      if (this.props.location.state.resetCategory) {
+        this.setState({selected: 'sort by category'})
+        this.props.location.state.resetCategory = false
+      }
+    }
+
     if (prevProps.location !== this.props.location) {
       const filter = this.props.location.pathname.split('/')[2]
       if (!filter) {
@@ -59,8 +67,10 @@ export class HomePage extends React.Component {
     this.setState({activePage: pageNumber})
   }
 
-  handleChange(event) {
+  selectCategory = event => {
     event.preventDefault()
+    this.setState({selected: event.target.value})
+    window.sessionStorage.setItem('selected', event.target.value)
     let selectedOption = event.target.value
     this.setState({selectedOption})
     this.setState({isSelected: true})
@@ -68,12 +78,12 @@ export class HomePage extends React.Component {
     else this.props.history.push(`/categories/${selectedOption}`)
   }
 
-  handleSearchChange(e) {
+  handleSearchChange = e => {
     e.preventDefault()
     this.setState({searchValue: e.target.value})
   }
 
-  handleSearchSubmit(e) {
+  handleSearchSubmit = e => {
     if (this.state.searchValue === '') e.preventDefault()
     e.preventDefault()
     const filteredBySearch = this.props.products.filter(product =>
@@ -85,7 +95,7 @@ export class HomePage extends React.Component {
     this.setState({searchValue: ''})
   }
 
-  handleSearchReset(e) {
+  handleSearchReset = e => {
     e.preventDefault()
     this.props.filteredProducts(this.state.selectedOption)
   }
@@ -101,11 +111,11 @@ export class HomePage extends React.Component {
       category => category.title
     )
     if (!categoriesTitle.includes(filter) && filter) {
-      return <div>not found</div>
+      return <div />
     } else {
       return (
         <div>
-          <select onChange={this.handleChange}>
+          <select onChange={this.selectCategory} value={this.state.selected}>
             <option>sort by category</option>
             {this.props.categories.map(category => (
               <option key={category.id}>{category.title}</option>

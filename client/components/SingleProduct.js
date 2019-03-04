@@ -35,7 +35,6 @@ class SingleProduct extends Component {
                     />
                   </Item>
                 </Grid.Column>
-
                 <Grid.Column>
                   <Item>
                     <Item.Content>

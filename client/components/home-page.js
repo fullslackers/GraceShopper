@@ -48,6 +48,7 @@ export class HomePage extends React.Component {
   componentDidMount() {
     if (this.props.location.state)
       this.props.location.state.resetCategory = false
+
     const filter = this.props.location.pathname.split('/')[2]
     if (filter) {
       this.setState({selectedOption: filter})

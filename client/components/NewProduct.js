@@ -1,6 +1,13 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {createProduct} from './../store/products'
+import {Form, List, Button, Header, Container} from 'semantic-ui-react'
+
+const styles = {
+  margin: {
+    margin: '2em'
+  }
+}
 
 class NewProduct extends Component {
   constructor() {
@@ -34,41 +41,84 @@ class NewProduct extends Component {
 
   render() {
     if (!this.props.isAdmin) {
-      return <div>You are not an admin</div>
+      return (
+        <Header as="h1" style={styles.margin}>
+          You are not an admin
+        </Header>
+      )
     }
     return (
-      <div>
-        <h1>Create New Product</h1>
-        <form onSubmit={this.saveNewProduct} onChange={this.changeFormFields}>
-          <label htmlFor="title">Title: </label>
-          <input name="title" type="text" value={this.state.title} />
+      <Container>
+        <Header style={styles.margin} as="h1">
+          Create New Product
+        </Header>
+        <Form onSubmit={this.saveNewProduct} onChange={this.changeFormFields}>
+          <Form.Group>
+            <Form.Field
+              width="9"
+              label="Title:"
+              control="input"
+              placeholder="title"
+              name="title"
+              value={this.state.title}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.TextArea
+              width="9"
+              autoHeight
+              label="Description:"
+              placeholder="description..."
+              name="description"
+              value={this.state.description}
+            />
+          </Form.Group>
 
-          <label htmlFor="description">Description: </label>
-          <input
-            name="description"
-            type="text"
-            value={this.state.description}
-          />
+          <Form.Group>
+            <Form.Field
+              width="5"
+              label="Image URL:"
+              control="input"
+              placeholder="http://www.pencils.com"
+              name="imageUrl"
+              value={this.state.imageUrl}
+            />
 
-          <label htmlFor="imageUrl">Image URL: </label>
-          <input name="imageUrl" type="text" value={this.state.imageUrl} />
+            <Form.Field
+              width="2"
+              label="Price:"
+              control="input"
+              placeholder="5.00"
+              name="price"
+              value={this.state.price}
+            />
 
-          <label htmlFor="price">Price: </label>
-          <input name="price" type="number" value={this.state.price} />
+            <Form.Field
+              width="2"
+              label="Inventory:"
+              control="input"
+              placeholder="100"
+              name="inventory"
+              value={this.state.inventory}
+            />
+          </Form.Group>
 
-          <label htmlFor="inventory">Inventory: </label>
-          <input name="inventory" type="number" value={this.state.inventory} />
+          <Button type="submit">Submit</Button>
+        </Form>
 
-          <button type="submit">Submit</button>
-        </form>
-
-        {!this.state.title ? <div>Please enter a title.</div> : ''}
-        {!this.state.price ? (
-          <div>Please enter a price greater than zero.</div>
-        ) : (
-          ''
-        )}
-      </div>
+        <List>
+          {!this.state.title ? (
+            <List.Item>Please enter a title.</List.Item>
+          ) : (
+            ''
+          )}
+          {!this.state.price ? (
+            <List.Item>Please enter a price greater than zero.</List.Item>
+          ) : (
+            ''
+          )}
+        </List>
+      </Container>
     )
   }
 }

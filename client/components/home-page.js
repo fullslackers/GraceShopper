@@ -48,8 +48,6 @@ export class HomePage extends React.Component {
   componentDidMount() {
     if (this.props.location.state)
       this.props.location.state.resetCategory = false
-    // let selected = window.sessionStorage.getItem('selected')
-    // this.setState({selected: selected})
     const filter = this.props.location.pathname.split('/')[2]
     if (filter) {
       this.setState({selectedOption: filter})
@@ -65,6 +63,7 @@ export class HomePage extends React.Component {
       if (this.props.location.state.resetCategory) {
         // this.setState({selected: 'sort by category'})
         this.props.location.state.resetCategory = false
+        window.sessionStorage.setItem('selected', 'sort by category')
       }
     }
 

@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom'
 
 export const AllUsers = props => {
   const users = props.users
-  console.log(users)
   const type = isAdmin => {
     if (isAdmin) return 'Admin'
     return 'Customer'

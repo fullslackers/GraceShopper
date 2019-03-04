@@ -36,12 +36,6 @@ class SingleProduct extends Component {
                   </Item>
                 </Grid.Column>
 
-                {/* <h1>{this.props.selectedProduct.title}</h1>
-                  <img src={this.props.selectedProduct.imageUrl} />
-                  <h3 className="description">
-                    {this.props.selectedProduct.description}
-                  </h3> */}
-
                 <Grid.Column>
                   <Item>
                     <Item.Content>

@@ -20,19 +20,11 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
               <Button animated color="blue">
                 <Button.Content visible>
                   {' '}
-                  <Icon name="home" />
+                  <Icon name="pencil alternate" />
                 </Button.Content>
-                <Button.Content hidden>Home</Button.Content>
+                <Button.Content hidden>User</Button.Content>
               </Button>
             </Link>
-
-            {/* <Link to="/home">
-              <Button primary> Home</Button>
-            </Link> */}
-
-            {/* <Link to="#" onClick={handleClick}>
-              <Button> Logout </Button>
-            </Link> */}
 
             <Link to="#" onClick={handleClick}>
               <Button animated>
@@ -43,6 +35,20 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
                 <Button.Content visible>Logout</Button.Content>
               </Button>
             </Link>
+
+            {isAdmin ? (
+              <Link to="/admin">
+                <Button animated color="blue">
+                  <Button.Content visible>
+                    {' '}
+                    <Icon name="user secret" />
+                  </Button.Content>
+                  <Button.Content hidden>Capo</Button.Content>
+                </Button>
+              </Link>
+            ) : (
+              ''
+            )}
           </Menu.Item>
         </div>
       ) : (

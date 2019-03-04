@@ -32,15 +32,7 @@ export class UserHome extends React.Component {
           ''
         )}
         <h5>Email: {email}</h5>
-        {isAdmin ? (
-          <div align="right">
-            <button type="submit">
-              <Link to={{pathname: '/admin'}}>Go to Admin Page</Link>
-            </button>
-          </div>
-        ) : (
-          ''
-        )}
+
         <h3>ORDER HISTORY</h3>
         <table>
           <tbody>

@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {removeFromCart, updateQuantity} from './../store/cart'
+import {Table, Header, Button, Image} from 'semantic-ui-react'
+import {Link} from 'react-router-dom'
 
 class CartItem extends Component {
   refreshQuantity = event => {
@@ -12,43 +14,89 @@ class CartItem extends Component {
   render() {
     const {id, title, imageUrl, price, quantity} = this.props.item
     return (
-      <div>
-        <div>
-          {id}
-          {title}
-          {imageUrl}
-          {price}
-        </div>
-        <div>
+      <Table.Row>
+        <Table.Cell>
+          <Header as="h3" image>
+            <Image src={imageUrl} rounded size="medium" />
+            <Header.Content>
+              <Link to={`/products/${id}`}>{title}</Link>
+            </Header.Content>
+          </Header>
+        </Table.Cell>
+        <Table.Cell singleLine>{`$${price}`}</Table.Cell>
+        <Table.Cell>
           {quantity > 1 ? (
-            <button
+            <Button
               onClick={() =>
                 this.props.updateQuantity(this.props.item, 'decrement')
               }
               type="button"
             >
               -
-            </button>
+            </Button>
           ) : (
             ''
           )}
-          {quantity}
-          <button
+          {`${quantity}  `}
+
+          <Button
             onClick={() =>
               this.props.updateQuantity(this.props.item, 'increment')
             }
             type="button"
           >
             +
-          </button>
-        </div>
-        <button
-          type="button"
-          onClick={() => this.props.removeFromCart(this.props.item)}
-        >
-          Remove Item
-        </button>
-      </div>
+          </Button>
+        </Table.Cell>
+        <Table.Cell textAlign="center">${quantity * price}</Table.Cell>
+        <Table.Cell>
+          <Button
+            negative
+            basic
+            onClick={() => this.props.removeFromCart(this.props.item)}
+          >
+            Remove Item
+          </Button>
+        </Table.Cell>
+      </Table.Row>
+
+      // <div>
+      //   <div>
+      //     {id}
+      //     {title}
+      //     {imageUrl}
+      //     {price}
+      //   </div>
+      //   <div>
+      //     {quantity > 1 ? (
+      //       <button
+      //         onClick={() =>
+      //           this.props.updateQuantity(this.props.item, 'decrement')
+      //         }
+      //         type="button"
+      //       >
+      //         -
+      //       </button>
+      //     ) : (
+      //       ''
+      //     )}
+      //     {quantity}
+      //     <button
+      //       onClick={() =>
+      //         this.props.updateQuantity(this.props.item, 'increment')
+      //       }
+      //       type="button"
+      //     >
+      //       +
+      //     </button>
+      //   </div>
+      //   <button
+      //     type="button"
+      //     onClick={() => this.props.removeFromCart(this.props.item)}
+      //   >
+      //     Remove Item
+      //   </button>
+      // </div>
     )
   }
 }

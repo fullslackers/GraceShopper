@@ -29,7 +29,10 @@ const Order = db.define('order', {
     type: Sequelize.DATE,
     defaultValue: Sequelize.NOW
   },
-  copyProducts: Sequelize.ARRAY(Sequelize.TEXT)
+  copyProducts: {
+    type: Sequelize.JSON,
+    defaultValue: {}
+  }
 })
 
 module.exports = Order

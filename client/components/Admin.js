@@ -8,18 +8,28 @@ import {fetchCategories} from '../store/categories'
 import {AllUsers} from './AllUsers'
 import {AllOrders} from './AllOrders'
 import {AllCategories} from './AllCategories'
+import {withRouter, Route, Switch} from 'react-router-dom'
+import {Tabs, TabLink, TabContent} from 'react-tabs-redux'
 
-/**
- * COMPONENT
- */
-export class AdminHome extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      selected: null
-    }
+const styles = {
+  tabs: {
+    width: '100%',
+    display: 'inline-block',
+    marginRight: '30px',
+    verticalAlign: 'top'
+  },
+  tabLink: {
+    height: '30px',
+    lineHeight: '30px',
+    padding: '0 15px',
+    cursor: 'pointer',
+    border: 'none',
+    borderBottom: '2px solid transparent',
+    display: 'inline-block'
   }
+}
 
+export class AdminHome extends React.Component {
   componentDidMount() {
     this.props.fetchAllOrders()
     this.props.fetchAllUsers()
@@ -38,25 +48,37 @@ export class AdminHome extends React.Component {
       allCategories,
       allProducts
     } = this.props
-
+    if (!isAdmin) return <div />
     return (
       <div>
-        <div>users: {allUsers.length}</div>
-        <div>orders: {allOrders.length}</div>
-        <div>products: {allProducts.length}</div>
-        <div>categories: {allCategories.length}</div>
-
-        {/* <form className="tab" onSubmit={this.selectContent}>
-          <button className="tablinks" type="submit">
-            <Link to={{pathname: '/categories'}}>all categories</Link>
-          </button>
-          <button className="tablinks" type="submit" >
-            <Link to={{pathname: '/orders'}}>all orders</Link>
-          </button>
-          <button className="tablinks" type="submit" >
-            <Link to={{pathname: '/users'}}>all users</Link>
-          </button>
-        </form> */}
+        <div style={styles.center}>
+          <div>users: {allUsers.length}</div>
+          <div>orders: {allOrders.length}</div>
+          <div>products: {allProducts.length}</div>
+          <div>categories: {allCategories.length}</div>
+        </div>
+        <br />
+        <br />
+        <Tabs renderActiveTabContentOnly={true} style={styles.tabs}>
+          <TabLink to="tab1" style={styles.tabLink}>
+            all users
+          </TabLink>
+          <TabLink to="tab2" style={styles.tabLink}>
+            all orders
+          </TabLink>
+          <TabLink to="tab3" style={styles.tabLink}>
+            all categories
+          </TabLink>
+          <TabContent for="tab1">
+            <AllUsers users={allUsers} />
+          </TabContent>
+          <TabContent for="tab2">
+            <AllOrders orders={allOrders} />
+          </TabContent>
+          <TabContent for="tab3">
+            <AllCategories categories={allCategories} />
+          </TabContent>
+        </Tabs>
       </div>
     )
   }

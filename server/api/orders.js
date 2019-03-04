@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Order, Product} = require('../db/models')
+const {Order, Product, User} = require('../db/models')
 const {loginCheckMiddleware, adminCheckMiddleware} = require('./middleware')
 module.exports = router
 
@@ -62,8 +62,22 @@ router.get('/:orderId', loginCheckMiddleware, async (req, res, next) => {
 
 router.post('/', loginCheckMiddleware, async (req, res, next) => {
   try {
-    const newOrder = await Order.create(req.body)
+    const cart = req.body
+    const total = cart
+      .reduce((acc, cur) => acc + cur.price * cur.quantity, 0)
+      .toFixed(2)
+    const newOrder = await Order.create({
+      copyProducts: cart,
+      totalPrice: total
+    })
+    const products = await Promise.all(
+      cart.map(product => Product.findById(product.id))
+    )
+    await newOrder.addProducts(products)
+    const user = await User.findById(req.user.id)
+    await user.addOrder(newOrder)
     res.status(201).json(newOrder)
+    // res.status(201).json("success")
   } catch (err) {
     next(err)
   }

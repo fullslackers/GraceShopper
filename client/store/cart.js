@@ -5,7 +5,8 @@ import store from './index'
 const ADD_TO_CART = 'ADD_TO_CART'
 const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 const UPDATE_QUANTITY = 'UPDATE_QUANTITY'
-const CLEAR_CART_UPON_LOGOUT = 'CLEAR_CART_UPON_LOGOUT'
+const CLEAR_CART = 'CLEAR_CART'
+const CHECKOUT = 'CHECKOUT'
 
 // Action Creators
 export const addToCart = product => ({
@@ -25,7 +26,12 @@ export const updateQuantity = (product, opType) => ({
 })
 
 export const clearCartUponLogout = () => ({
-  type: CLEAR_CART_UPON_LOGOUT
+  type: CLEAR_CART
+})
+
+export const checkout = cart => ({
+  type: CHECKOUT,
+  cart
 })
 
 // Thunks
@@ -47,6 +53,14 @@ export const postCart = async cart => {
   try {
     const isUser = Object.values(store.getState().currentUser).length
     if (isUser) await Axios.post('/api/users/cart', cart)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const createOrder = async cart => {
+  try {
+    await Axios.post('/api/orders', cart)
   } catch (error) {
     console.log(error)
   }
@@ -91,7 +105,12 @@ const dispatchers = {
       return cart
     }
   },
-  [CLEAR_CART_UPON_LOGOUT]: (state, action) => initialState
+  [CLEAR_CART]: (state, action) => initialState,
+  [CHECKOUT]: (state, action) => {
+    createOrder(action.cart)
+    postCart({})
+    return initialState
+  }
 }
 
 export default (state = initialState, action) => {

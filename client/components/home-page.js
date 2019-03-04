@@ -1,8 +1,17 @@
-import React from 'react'
+import React, {Component, Fragment} from 'react'
 import {connect} from 'react-redux'
 import {ProductForHomePage} from './productForHomePage'
 import {setProducts, fetchProducts} from '../store/products'
-import Pagination from 'react-js-pagination'
+// import Pagination from 'react-js-pagination'
+import {
+  Card,
+  Button,
+  Container,
+  Divider,
+  Input,
+  Dropdown,
+  Pagination
+} from 'semantic-ui-react'
 
 const ProductsOnCurPage = (allProducts, curPage, itemsPerPage) => {
   return allProducts.slice(
@@ -20,7 +29,7 @@ export class HomePage extends React.Component {
       isSelected: false,
       searchValue: '',
       activePage: 1,
-      itemsCountPerPage: 1
+      itemsCountPerPage: 3
     }
   }
 
@@ -64,18 +73,15 @@ export class HomePage extends React.Component {
     }
   }
 
-  handlePageChange = pageNumber => {
-    this.setState({activePage: pageNumber})
+  handlePageChange = (e, {activePage}) => {
+    this.setState({activePage})
   }
 
-  selectCategory = event => {
-    event.preventDefault()
-    this.setState({selected: event.target.value})
-    window.sessionStorage.setItem('selected', event.target.value)
-    let selectedOption = event.target.value
+  selectCategory = text => {
+    let selectedOption = text
     this.setState({selectedOption})
     this.setState({isSelected: true})
-    if (selectedOption === 'sort by category') this.props.history.push('/')
+    if (selectedOption == 'all products') this.props.history.push('/')
     else this.props.history.push(`/categories/${selectedOption}`)
   }
 
@@ -102,6 +108,16 @@ export class HomePage extends React.Component {
   }
 
   render() {
+    const InputExampleFocus = () => (
+      <Input
+        focus
+        placeholder="Search..."
+        name="search"
+        type="text"
+        value={this.state.searchValue}
+      />
+    )
+
     const ProductsCurPage = ProductsOnCurPage(
       this.props.products,
       this.state.activePage,
@@ -112,40 +128,68 @@ export class HomePage extends React.Component {
       category => category.title
     )
     if (!categoriesTitle.includes(filter) && filter) {
-      return <div />
+      return (
+        <Fragment>
+          <div>Not found...</div>
+        </Fragment>
+      )
     } else {
       return (
-        <div>
-          <select onChange={this.selectCategory} value={this.state.selected}>
-            <option>sort by category</option>
-            {this.props.categories.map(category => (
-              <option key={category.id}>{category.title}</option>
-            ))}
-          </select>
-          <form
-            onChange={this.handleSearchChange}
-            onSubmit={this.handleSearchSubmit}
-          >
-            <label htmlFor="search">Search: </label>
-            <input name="search" type="text" value={this.state.searchValue} />
-            <button type="submit">Search it!</button>
-            <button type="reset" onClick={this.handleSearchReset}>
-              Reset
-            </button>
-          </form>
-          <div className="product-container">
-            {ProductsCurPage.map(product => {
-              return <ProductForHomePage key={product.id} product={product} />
-            })}
-          </div>
-          <Pagination
-            activePage={this.state.activePage}
-            itemsCountPerPage={this.state.itemsCountPerPage}
-            totalItemsCount={this.props.products.length}
-            pageRangeDisplayed={5}
-            onChange={this.handlePageChange}
-          />
-        </div>
+        <Container>
+          <Fragment>
+            <Divider hidden />
+            <div>
+              <Dropdown text="Find by Category">
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    text="all products"
+                    onClick={() => this.selectCategory('all products')}
+                  />
+                  {this.props.categories.map(category => (
+                    <Dropdown.Item
+                      key={category.id}
+                      id={category.id}
+                      text={category.title}
+                      onClick={() => this.selectCategory(category.title)}
+                    />
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+
+              <form
+                onChange={this.handleSearchChange}
+                onSubmit={this.handleSearchSubmit}
+              >
+                {InputExampleFocus()}
+                <Button type="submit">Search it!</Button>
+                <Button type="reset" onClick={this.handleSearchReset}>
+                  Reset
+                </Button>
+              </form>
+
+              <Card.Group stackable centered>
+                {ProductsCurPage.map(product => (
+                  <React.Fragment key={product.id}>
+                    <ProductForHomePage featured product={product} />
+                  </React.Fragment>
+                ))}
+              </Card.Group>
+
+              <Pagination
+                defaultActivePage={1}
+                totalPages={5}
+                ellipsisItem={null}
+                firstItem={null}
+                lastItem={null}
+                siblingRange={1}
+                // itemsCountPerPage={this.state.itemsCountPerPage}
+                // totalItemsCount={this.props.products.length}
+                // pageRangeDisplayed={5}
+                onPageChange={this.handlePageChange}
+              />
+            </div>
+          </Fragment>
+        </Container>
       )
     }
   }

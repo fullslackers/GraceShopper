@@ -26,6 +26,10 @@ table {
   width: 100%;
 }
 
+#logo {
+  font-family: 'Reenie Beanie', cursive;
+}
+
 td,
 th {
   border: 1px solid #dddddd;

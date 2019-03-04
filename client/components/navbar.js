@@ -8,7 +8,6 @@ import {Menu, Icon, Button} from 'semantic-ui-react'
 const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
   <Menu attached="top" stackable>
     <Menu.Item as={Link} to="/" id="logo">
-
       <h1>Pristine Pencillorum</h1>
     </Menu.Item>
     <Menu.Menu position="left">

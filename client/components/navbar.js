@@ -3,47 +3,88 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {Menu, Icon, Button} from 'semantic-ui-react'
 
 const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
-  <div className="nav-bar">
-    <Link className="link" to="/">
+  <Menu attached="top" stackable>
+    <Menu.Item as={Link} to="/" id="logo">
       <h1>Pristine Pencillorum</h1>
-    </Link>
-    <nav>
+    </Menu.Item>
+    <Menu.Menu position="left">
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
-          <Link className="link" to="/home">
-            Home
-          </Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
+
+          <Menu.Item>
+            <Link to="/home">
+              <Button animated color="blue">
+                <Button.Content visible>
+                  {' '}
+                  <Icon name="home" />
+                </Button.Content>
+                <Button.Content hidden>Home</Button.Content>
+              </Button>
+            </Link>
+
+            {/* <Link to="/home">
+              <Button primary> Home</Button>
+            </Link> */}
+
+            {/* <Link to="#" onClick={handleClick}>
+              <Button> Logout </Button>
+            </Link> */}
+
+            <Link to="#" onClick={handleClick}>
+              <Button animated>
+                <Button.Content hidden>
+                  {' '}
+                  <Icon name="undo" />
+                </Button.Content>
+                <Button.Content visible>Logout</Button.Content>
+              </Button>
+            </Link>
+          </Menu.Item>
         </div>
       ) : (
         <div>
-          {/* The navbar will show these links before you log in */}
-          <Link className="link" to="/login">
-            Login
-          </Link>
-          <Link className="link" to="/signup">
-            Sign Up
-          </Link>
+          <Menu.Menu position="left">
+            {/* The navbar will show these links before you log in */}
+
+            <Menu.Item>
+              <Link to="/login">
+                <Button primary>Login</Button>
+              </Link>
+
+              <Link to="/signup">
+                <Button>Sign Up</Button>
+              </Link>
+            </Menu.Item>
+          </Menu.Menu>
         </div>
       )}
+
       {isAdmin ? (
-        <Link className="link" to="/products/new">
-          Create New Product
-        </Link>
+        <React.Fragment>
+          <Menu.Item as={Link} to="/products/new">
+            <Button>Create New Product</Button>
+          </Menu.Item>
+        </React.Fragment>
       ) : (
         ''
       )}
-      <Link className="link" to="/cart">
-        Cart
+    </Menu.Menu>
+    <Menu.Item position="right">
+      <Link to="/cart">
+        <Button animated color="blue">
+          <Button.Content visible>
+            {' '}
+            <Icon name="shopping cart" />
+          </Button.Content>
+          <Button.Content hidden>Cart</Button.Content>
+        </Button>
       </Link>
-    </nav>
-    <hr />
-  </div>
+    </Menu.Item>
+  </Menu>
 )
 
 /**

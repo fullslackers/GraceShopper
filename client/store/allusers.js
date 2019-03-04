@@ -10,7 +10,7 @@ const getUsers = users => ({
 })
 
 // Initial State
-const initialState = {}
+const initialState = []
 
 // Thunk Creators
 export const fetchUsers = () => async dispatch => {

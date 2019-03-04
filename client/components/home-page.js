@@ -49,9 +49,6 @@ export class HomePage extends React.Component {
     if (this.props.location.state)
       this.props.location.state.resetCategory = false
 
-    // let selected = window.sessionStorage.getItem('selected')
-    // this.setState({selected: selected})
-
     const filter = this.props.location.pathname.split('/')[2]
     if (filter) {
       this.setState({selectedOption: filter})

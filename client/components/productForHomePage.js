@@ -10,24 +10,33 @@ import {
   Popup
 } from 'semantic-ui-react'
 
+const styles = {
+  text: {
+    textAlign: 'center'
+  },
+  margin: {
+    margin: '0.5em'
+  }
+}
+
 export const ProductForHomePage = props => {
   return (
     <React.Fragment>
-      <Card key={props.product.id}>
+      <Card key={props.product.id} style={props.style}>
         <Link className="link" to={`/products/${props.product.id}`}>
           <Image size="medium" src={props.product.imageUrl} />
         </Link>
         <div>
-          <Card.Content>
+          <Card.Content style={styles.text}>
             <Link className="link" to={`/products/${props.product.id}`}>
-              <Card.Header centered="true" as="h3">
+              <Card.Header style={styles.margin} as="h3">
                 {props.product.title}
               </Card.Header>
             </Link>
 
             <Divider hidden />
-            <Card.Content centered="true" extra>
-              <Card.Description as="h4">
+            <Card.Content extra>
+              <Card.Description style={styles.margin} as="h4">
                 ${props.product.price}
               </Card.Description>
             </Card.Content>

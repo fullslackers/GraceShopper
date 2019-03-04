@@ -20,11 +20,23 @@ const ProductsOnCurPage = (allProducts, curPage, itemsPerPage) => {
   )
 }
 
+const styles = {
+  cardGroup: {
+    margin: '5em'
+  },
+  singleImage: {
+    margin: '1em'
+  },
+  center: {
+    justifyContent: 'center'
+  }
+}
+
 export class HomePage extends React.Component {
   constructor() {
     super()
     this.state = {
-      selected: 'sort by category',
+      // selected: 'sort by category',
       selectedOption: null,
       isSelected: false,
       searchValue: '',
@@ -36,8 +48,8 @@ export class HomePage extends React.Component {
   componentDidMount() {
     if (this.props.location.state)
       this.props.location.state.resetCategory = false
-    let selected = window.sessionStorage.getItem('selected')
-    this.setState({selected: selected})
+    // let selected = window.sessionStorage.getItem('selected')
+    // this.setState({selected: selected})
     const filter = this.props.location.pathname.split('/')[2]
     if (filter) {
       this.setState({selectedOption: filter})
@@ -51,7 +63,7 @@ export class HomePage extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.location.state) {
       if (this.props.location.state.resetCategory) {
-        this.setState({selected: 'sort by category'})
+        // this.setState({selected: 'sort by category'})
         this.props.location.state.resetCategory = false
       }
     }
@@ -80,7 +92,7 @@ export class HomePage extends React.Component {
     let selectedOption = text
     this.setState({selectedOption})
     this.setState({isSelected: true})
-    if (selectedOption == 'all products') this.props.history.push('/')
+    if (selectedOption === 'all products') this.props.history.push('/')
     else this.props.history.push(`/categories/${selectedOption}`)
   }
 
@@ -166,10 +178,14 @@ export class HomePage extends React.Component {
                 </Button>
               </form>
 
-              <Card.Group stackable centered>
+              <Card.Group stackable centered style={styles.cardGroup}>
                 {ProductsCurPage.map(product => (
                   <React.Fragment key={product.id}>
-                    <ProductForHomePage featured product={product} />
+                    <ProductForHomePage
+                      featured
+                      product={product}
+                      style={styles.singleImage}
+                    />
                   </React.Fragment>
                 ))}
               </Card.Group>

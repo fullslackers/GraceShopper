@@ -1,18 +1,39 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {
+  Card,
+  Container,
+  Button,
+  Image,
+  Icon,
+  Divider,
+  Popup
+} from 'semantic-ui-react'
 
 export const ProductForHomePage = props => {
   return (
-    <div className="product-homepage">
-      <Link className="link" to={`/products/${props.product.id}`}>
-        <img src={props.product.imageUrl} />
-      </Link>
-      <div>
+    <React.Fragment>
+      <Card key={props.product.id}>
         <Link className="link" to={`/products/${props.product.id}`}>
-          <h5>{props.product.title}</h5>
+          <Image size="medium" src={props.product.imageUrl} />
         </Link>
-        <h4>{props.product.price}</h4>
-      </div>
-    </div>
+        <div>
+          <Card.Content>
+            <Link className="link" to={`/products/${props.product.id}`}>
+              <Card.Header centered="true" as="h3">
+                {props.product.title}
+              </Card.Header>
+            </Link>
+
+            <Divider hidden />
+            <Card.Content centered="true" extra>
+              <Card.Description as="h4">
+                ${props.product.price}
+              </Card.Description>
+            </Card.Content>
+          </Card.Content>
+        </div>
+      </Card>
+    </React.Fragment>
   )
 }

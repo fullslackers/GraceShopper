@@ -2,6 +2,14 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
+import {
+  Form,
+  Container,
+  Header,
+  Divider,
+  Button,
+  Message
+} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -10,27 +18,45 @@ const AuthForm = props => {
   const {name, displayName, handleSubmit, error} = props
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        <div>
-          <label htmlFor="email">
-            <small>Email</small>
-          </label>
-          <input required name="email" type="text" />
-        </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input required name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-      <a href="/auth/google">{displayName} with Google</a>
-    </div>
+    <Container>
+      <Divider hidden />
+      <Header as="h1">{displayName}</Header>
+      <div>
+        <Form
+          onSubmit={handleSubmit}
+          name={name}
+          className={error ? 'error' : ''}
+        >
+          <Form.Group>
+            <Form.Field width={4}>
+              <div>
+                <label htmlFor="email">
+                  <small>Email</small>
+                </label>
+                <input required name="email" type="text" />
+              </div>
+            </Form.Field>
+            <Form.Field width={4}>
+              <div>
+                <label htmlFor="password">
+                  <small>Password</small>
+                </label>
+                <input required name="password" type="password" />
+              </div>
+            </Form.Field>
+          </Form.Group>
+          {error &&
+            error.response && (
+              <Message error header="Fail" content={error.response.data} />
+            )}
+          <Form.Button type="submit">{displayName}</Form.Button>
+          <h5>or</h5>
+          <Button as="a" href="/auth/google">
+            {displayName} with Google
+          </Button>
+        </Form>
+      </div>
+    </Container>
   )
 }
 

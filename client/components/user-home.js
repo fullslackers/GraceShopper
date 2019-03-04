@@ -64,11 +64,9 @@ const mapState = state => {
     userOrders: state.orders.userOrders
   }
 }
-const mapDispatch = dispatch => {
-  return {
-    fetchUserOrders: id => dispatch(fetchSelectedUserOrders(id))
-  }
-}
+const mapDispatch = dispatch => ({
+  fetchUserOrders: id => dispatch(fetchSelectedUserOrders(id))
+})
 
 export default connect(mapState, mapDispatch)(UserHome)
 

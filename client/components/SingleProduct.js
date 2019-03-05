@@ -45,42 +45,6 @@ class SingleProduct extends Component {
                         size="large"
                         src={this.props.selectedProduct.imageUrl}
                       />
-                      <h4>${this.props.selectedProduct.price}</h4>
-                      {isAdmin ? (
-                        <div>
-                          <Item.Description>
-                            Item #{this.props.selectedProduct.id}
-                          </Item.Description>
-                          <Item.Description>
-                            Inventory: {this.props.selectedProduct.inventory}
-                          </Item.Description>
-                        </div>
-                      ) : (
-                        ''
-                      )}
-                      <Divider hidden />
-                      <Item.Description>
-                        {this.props.selectedProduct.description}
-                        <Divider hidden />
-                      </Item.Description>
-                      <Popup
-                        trigger={
-                          <Button
-                            color="black"
-                            onClick={() =>
-                              this.props.addToCart({
-                                ...this.props.selectedProduct,
-                                quantity: 1
-                              })
-                            }
-                          >
-                            Add to Cart
-                          </Button>
-                        }
-                        content="Added to Cart!"
-                        on="click"
-                      />
-                      <Divider hidden />
                     </Item>
                   </Grid.Column>
                   <Grid.Column>
@@ -111,7 +75,7 @@ class SingleProduct extends Component {
                         <Popup
                           trigger={
                             <Button
-                              color="blue"
+                              color="black"
                               onClick={() =>
                                 this.props.addToCart({
                                   ...this.props.selectedProduct,
@@ -150,6 +114,7 @@ class SingleProduct extends Component {
             </Grid.Row>
           </Grid>
         </Container>
+        <Divider hidden />
         <Container margin="1em">
           <Comment.Group>
             <Header as="h3" dividing>

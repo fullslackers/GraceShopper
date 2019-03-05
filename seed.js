@@ -9,6 +9,8 @@ const {
   OrderProduct,
   db
 } = require('./server/db/models')
+const scrapedProducts = require('./scrapedProducts.json')
+console.log()
 
 const userData = [
   {
@@ -53,94 +55,14 @@ const userData = [
   }
 ]
 
-const productData = [
-  {
-    title: 'Genius Pencil With Stylus',
-    description: `This example of a bicolor pencil is especially unique. The colors are extra rich, the core is extra soft and it's also water-soluble! If you're familiar with the Caran d'Ache pencils, you'll find this to be the same core as the Supracolor line. Made in Switzerland. Core: Red/blue, soft, water-soluble. Measures 7" long. Sold individually.`,
-    imageUrl:
-      'https://cdn.shopify.com/s/files/1/0644/8811/products/Caran_d_Ache_Genius_pencil_ecaa7578-4169-4632-8acf-9311ea148b9f_1024x1024.jpg?v=1527216128',
-    price: 7.0,
-    inventory: 99
-  },
-  {
-    title: 'BiColor 999 Red/Blue Pencil',
-    description: `This example of a bicolor pencil is especially unique. The colors are extra rich, the core is extra soft and it's also water-soluble! If you're familiar with the Caran d'Ache pencils, you'll find this to be the same core as the Supracolor line. Made in Switzerland. Core: Red/blue, soft, water-soluble. Measures 7" long. Sold individually. Hexagonal barrel, normal diameter. Pre-sharpened.`,
-    imageUrl:
-      'https://cdn.shopify.com/s/files/1/0644/8811/products/Caran_d_Ache_Bicolor_999_pencil_1024x1024.jpg?v=1527215608',
-    price: 2.9,
-    inventory: 2047
-  },
-  {
-    title: 'Majestic Jumbo #2 Pencil',
-    description: `Nostalgic, comfortable to hold and just downright cute, these jumbo pencils are a standard HB/#2 graphite and are sure to bring back memories of Kindergarten (good ones, we hope!). Made in the USA. Grade: a true #2/HB. Measures 7 1/2" long, 3/8" in diameter. Hexagonal barrel, jumbo barrel. Sold individually`,
-    imageUrl:
-      'https://cdn.shopify.com/s/files/1/0644/8811/products/hester_and_cook_majestic_jumbo_pencil_1024x1024.jpg?v=1527215571',
-    price: 1.7,
-    inventory: 1000
-  },
-  {
-    title: 'Anthracite Perfect Pencil Magnum',
-    description: `The Graf von Faber-Castell Perfect Pencil is the most luxurious and complete pencil experience. The fluted California cedar pencil comes with a capped eraser on one end, and a combination point-protector, pocket clip, and sharpener on the other. Both the pencil and the eraser can be replaced (keep in mind that the cap will only fit on Graf von Faber-Castell pencil refills). The high-quality graphite and anthracite PVD coated titanium hardware make this the Perfect tool for those who write, draw, or simply enjoy fine analog tools. This particular version is a jumbo version of F-C's original Perfect Pencil and features an extra thick 2B lead. Made in Germany. Measures 6 inches assembled. Pencil measures 5 1/4 inches. Cap measures 3 inches. Sold individually.`,
-    imageUrl:
-      'https://cdn.shopify.com/s/files/1/0644/8811/products/GVF_Magnum_Pencil_3_1024x1024.jpg?v=1527215592',
-    price: 385.0,
-    inventory: 5
-  },
-  {
-    title: 'Badger #2 Pencil',
-    description: `This pencil is a nostalgic but currently manufactured version of the classic American yellow #2. Family-owned General Pencil Company has been making pencils in Jersey City, NJ since 1889 and is one of only three pencil companies still left in the United States. All of their pencils are made of high quality California incense cedar and are made to as high a standard as they were 100 years ago. Made in the USA. Grade: a true #2/HB. Measures 7 1/2" long. Sold individually. Hexagonal barrel, normal diameter. Pre-sharpened`,
-    imgUrl:
-      'https://cdn.shopify.com/s/files/1/0644/8811/products/Generals_Badger_pencil_1024x1024.jpg?v=1527215600',
-    price: 0.75,
-    inventory: 5000
-  }
-]
-
-const orderData = [
-  {
-    totalPrice: 42.5,
-    status: 'completed'
-  },
-  {
-    totalPrice: 2.5,
-    status: 'processing'
-  },
-  {
-    totalPrice: 78.0,
-    status: 'cancelled'
-  },
-  {
-    totalPrice: 14.25,
-    status: 'completed'
-  },
-  {
-    totalPrice: 12.5,
-    status: 'completed'
-  }
-]
-
-const reviewData = [
-  {
-    description: 'Nice. I love it.',
-    rating: '5'
-  },
-  {
-    description: 'Super.',
-    rating: '5'
-  },
-  {
-    description: 'Feels awesome. Writes awesome.',
-    rating: '5'
-  },
-  {
-    description: 'Best pencil ever!!!!!!!1',
-    rating: '5'
-  },
-  {
-    description: 'This pencil changed my life.',
-    rating: '5'
-  }
-]
+const pencilData = scrapedProducts.pencils
+const eraserData = scrapedProducts.erasers
+const sharpenerData = scrapedProducts.sharpeners
+const caseData = scrapedProducts.cases
+const notebookData = scrapedProducts.notebooks
+const bookData = scrapedProducts.books
+const refillData = scrapedProducts.refills
+const accessoryData = scrapedProducts.accessories
 
 const categoryData = [
   {
@@ -151,110 +73,101 @@ const categoryData = [
   },
   {
     title: 'sharpeners'
+  },
+  {
+    title: 'cases'
+  },
+  {
+    title: 'notebooks'
+  },
+  {
+    title: 'books'
+  },
+  {
+    title: 'refills'
+  },
+  {
+    title: 'accessories'
   }
 ]
 
 const seed = async () => {
   try {
-    await db.sync({force: true})
+    await db.sync({
+      force: true
+    })
 
-    const promiseForUsers = User.bulkCreate(userData, {
-      returning: true
-    })
-    const promiseForProducts = Product.bulkCreate(productData, {
-      returning: true
-    })
-    const promiseForOrders = Order.bulkCreate(orderData, {
-      returning: true
-    })
-    const promiseForReviews = Review.bulkCreate(reviewData, {
-      returning: true
-    })
-    const promiseForCategories = Category.bulkCreate(categoryData, {
+    const createdCategories = await Category.bulkCreate(categoryData, {
       returning: true
     })
 
-    const promiseForInsertedData = Promise.all([
-      promiseForUsers,
-      promiseForProducts,
-      promiseForOrders,
-      promiseForReviews,
-      promiseForCategories
-    ])
+    const createdPencils = await Product.bulkCreate(pencilData, {
+      returning: true
+    })
 
-    const [
-      users,
-      products,
-      orders,
-      reviews,
-      categories
-    ] = await promiseForInsertedData
-    const [tony, paulie, christopher, silvio, pussy] = users
-    const [pencil1, pencil2, pencil3, pencil4, pencil5] = products
-    const [order1, order2, order3, order4, order5] = orders
-    const [review1, review2, review3, review4, review5] = reviews
-    const [pencil, eraser, sharpener] = categories
+    for (let i = 0; i < createdPencils.length; i++) {
+      await createdPencils[i].setCategories(createdCategories[0])
+    }
 
-    //USERS
-    const promise1 = tony.setOrders([order1, order2])
-    const promise2 = tony.setReviews([review1])
-    const promise3 = paulie.setOrders([order3])
-    const promise4 = paulie.setReviews([review2])
-    const promise5 = christopher.setOrders([order4])
-    const promise6 = christopher.setReviews([review3])
-    const promise7 = silvio.setOrders([order5])
-    const promise8 = silvio.setReviews([review4, review5])
+    const createdErasers = await Product.bulkCreate(eraserData, {
+      returning: true
+    })
 
-    //PRODUCTS
-    const promise9 = pencil1.setCategories([pencil])
-    const promise10 = pencil2.setCategories([pencil])
-    const promise11 = pencil3.setCategories([eraser])
-    const promise12 = pencil4.setCategories([eraser])
-    const promise13 = pencil5.setCategories([sharpener])
+    for (let i = 0; i < createdErasers.length; i++) {
+      await createdErasers[i].setCategories(createdCategories[1])
+    }
 
-    const promise14 = pencil1.setOrders([order1, order3, order5])
-    const promise15 = pencil2.setOrders([order1, order2, order3])
-    const promise16 = pencil3.setOrders([order4])
-    const promise17 = pencil4.setOrders([order2, order4, order5])
-    const promise18 = pencil5.setOrders([
-      order1,
-      order2,
-      order3,
-      order4,
-      order5
-    ])
+    const createdSharpeners = await Product.bulkCreate(sharpenerData, {
+      returning: true
+    })
 
-    const promise19 = pencil1.setReviews([review1])
-    const promise20 = pencil2.setReviews([review2])
-    const promise21 = pencil3.setReviews([review3])
-    const promise22 = pencil4.setReviews([review4])
-    const promise23 = pencil5.setReviews([review5])
+    for (let i = 0; i < createdSharpeners.length; i++) {
+      await createdSharpeners[i].setCategories(createdCategories[2])
+    }
 
-    await Promise.all([
-      promise1,
-      promise2,
-      promise3,
-      promise4,
-      promise5,
-      promise6,
-      promise7,
-      promise8,
-      promise9,
-      promise10,
-      promise11,
-      promise12,
-      promise13,
-      promise14,
-      promise15,
-      promise16,
-      promise17,
-      promise18,
-      promise19,
-      promise20,
-      promise21,
-      promise22,
-      promise23
-    ])
+    const createdCases = await Product.bulkCreate(caseData, {
+      returning: true
+    })
+
+    for (let i = 0; i < createdCases.length; i++) {
+      await createdCases[i].setCategories(createdCategories[3])
+    }
+
+    const createdNotebooks = await Product.bulkCreate(notebookData, {
+      returning: true
+    })
+
+    for (let i = 0; i < createdNotebooks.length; i++) {
+      await createdNotebooks[i].setCategories(createdCategories[4])
+    }
+
+    const createdBooks = await Product.bulkCreate(bookData, {
+      returning: true
+    })
+
+    for (let i = 0; i < createdBooks.length; i++) {
+      await createdBooks[i].setCategories(createdCategories[5])
+    }
+
+    const createdRefills = await Product.bulkCreate(refillData, {
+      returning: true
+    })
+
+    for (let i = 0; i < createdRefills.length; i++) {
+      await createdRefills[i].setCategories(createdCategories[6])
+    }
+
+    const createdAccessories = await Product.bulkCreate(accessoryData, {
+      returning: true
+    })
+
+    for (let i = 0; i < createdAccessories.length; i++) {
+      await createdAccessories[i].setCategories(createdCategories[7])
+    }
+
+    await User.bulkCreate(userData, {
+      returning: true
+    })
   } catch (err) {
     console.log(err)
   }

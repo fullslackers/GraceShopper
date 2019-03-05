@@ -40,6 +40,7 @@ class Routes extends Component {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/cart" component={Cart} />
         <Route exact path="/admin" component={Admin} />
+        <Route exact path="/page=:pageid" component={HomePage} />
         <Route path="/products/reviews/new" component={NewReview} />
         <Route exact path="/products/new" component={NewProduct} />
         <Route path="/products/:productId/edit" component={EditProduct} />

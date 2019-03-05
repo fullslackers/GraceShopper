@@ -36,7 +36,6 @@ export class HomePage extends React.Component {
   constructor() {
     super()
     this.state = {
-      // selected: 'sort by category',
       selectedOption: null,
       isSelected: false,
       searchValue: '',
@@ -62,7 +61,6 @@ export class HomePage extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.location.state) {
       if (this.props.location.state.resetCategory) {
-        // this.setState({selected: 'sort by category'})
         this.props.location.state.resetCategory = false
         window.sessionStorage.setItem('selected', 'sort by category')
       }
@@ -86,6 +84,7 @@ export class HomePage extends React.Component {
 
   handlePageChange = (e, {activePage}) => {
     this.setState({activePage})
+    this.props.history.push(`/page=${activePage}`)
   }
 
   selectCategory = text => {
@@ -138,6 +137,11 @@ export class HomePage extends React.Component {
     const categoriesTitle = this.props.categories.map(
       category => category.title
     )
+
+    const total = Math.floor(
+      this.props.products.length / this.state.itemsCountPerPage + 1
+    )
+
     if (!categoriesTitle.includes(filter) && filter) {
       return (
         <Fragment>
@@ -172,7 +176,9 @@ export class HomePage extends React.Component {
                 onSubmit={this.handleSearchSubmit}
               >
                 {InputExampleFocus()}
-                <Button type="submit">Search it!</Button>
+                <Button type="submit" margin="5px">
+                  Search it!
+                </Button>
                 <Button type="reset" onClick={this.handleSearchReset}>
                   Reset
                 </Button>
@@ -192,14 +198,11 @@ export class HomePage extends React.Component {
 
               <Pagination
                 defaultActivePage={1}
-                totalPages={5}
+                totalPages={total}
                 ellipsisItem={null}
                 firstItem={null}
                 lastItem={null}
                 siblingRange={1}
-                // itemsCountPerPage={this.state.itemsCountPerPage}
-                // totalItemsCount={this.props.products.length}
-                // pageRangeDisplayed={5}
                 onPageChange={this.handlePageChange}
               />
             </div>

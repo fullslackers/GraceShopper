@@ -7,6 +7,18 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
+    // const page = req.query.pageid || 1
+    // const perPage = 20
+    // const offset = (page - 1) * perPage
+    // // select * from products limit 10 offset ${offset} order by updateAt desc
+    // const pageOfProducts = await Product.findAll({
+    //   include: [{model: Category, fields: ['title']}],
+    //   limit: perPage,
+    //   offset: offset,
+    //   orderBy: 'updatedAt'
+    // })
+    // res.json(pageOfProducts)
+
     const allProducts = await Product.findAll({include: [Category]})
     res.json(allProducts)
   } catch (err) {

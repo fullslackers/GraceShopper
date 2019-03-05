@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import {Menu, Icon, Button} from 'semantic-ui-react'
+import {Menu, Icon, Button, Divider} from 'semantic-ui-react'
 
 const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
   <Menu attached="top" stackable>
@@ -17,7 +17,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
 
           <Menu.Item>
             <Link to="/home">
-              <Button animated color="blue">
+              <Button animated color="black">
                 <Button.Content visible>
                   {' '}
                   <Icon name="pencil alternate" />
@@ -38,7 +38,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
 
             {isAdmin ? (
               <Link to="/admin">
-                <Button animated color="blue">
+                <Button animated color="black">
                   <Button.Content visible>
                     {' '}
                     <Icon name="user secret" />
@@ -58,7 +58,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
 
             <Menu.Item>
               <Link to="/login">
-                <Button primary>Login</Button>
+                <Button color="black">Login</Button>
               </Link>
 
               <Link to="/signup">
@@ -81,7 +81,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
     </Menu.Menu>
     <Menu.Item position="right">
       <Link to="/cart">
-        <Button animated color="blue">
+        <Button animated color="black">
           <Button.Content visible>
             {' '}
             <Icon name="shopping cart" />
@@ -90,6 +90,7 @@ const Navbar = ({handleClick, isLoggedIn, isAdmin}) => (
         </Button>
       </Link>
     </Menu.Item>
+    <Divider hidden />
   </Menu>
 )
 

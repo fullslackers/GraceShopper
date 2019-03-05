@@ -1,30 +1,41 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Table, Button} from 'semantic-ui-react'
 
 export const AllOrders = props => {
   const orders = props.orders
   return (
-    <table>
-      <tbody>
-        <tr>
-          <th>Order Number</th>
-          <th>Order Date</th>
-          <th>Status</th>
-        </tr>
+    <Table celled>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>id</Table.HeaderCell>
+          <Table.HeaderCell>Order Number</Table.HeaderCell>
+          <Table.HeaderCell>Order Date</Table.HeaderCell>
+          <Table.HeaderCell>Status</Table.HeaderCell>
+          <Table.HeaderCell>View Order</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
         {orders.map(order => {
           return (
-            <tr key={order.id}>
-              <td>
-                <Link className="link" to={`/orders/${order.id}`}>
-                  {order.orderNumber}
-                </Link>
-              </td>
-              <td>{order.orderDate.slice(0, 10)}</td>
-              <td>{order.status}</td>
-            </tr>
+            <Table.Row key={order.id}>
+              <Table.Cell>{order.id}</Table.Cell>
+              <Table.Cell>{order.orderNumber}</Table.Cell>
+              <Table.Cell>{order.orderDate.slice(0, 10)}</Table.Cell>
+              <Table.Cell>{order.status}</Table.Cell>
+              <Table.Cell>
+                <Button
+                  id={order.id}
+                  onClick={(event, name) =>
+                    this.props.history.push(`/orders/${name.id}`)
+                  }
+                >
+                  view order
+                </Button>
+              </Table.Cell>
+            </Table.Row>
           )
         })}
-      </tbody>
-    </table>
+      </Table.Body>
+    </Table>
   )
 }

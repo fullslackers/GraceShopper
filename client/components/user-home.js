@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {fetchSelectedUserOrders} from '../store/orders'
-import {Link} from 'react-router-dom'
+import {Table, Button, Header} from 'semantic-ui-react'
+
 /**
  * COMPONENT
  */
@@ -10,6 +11,10 @@ export class UserHome extends React.Component {
   componentDidMount() {
     const {id} = this.props.currentUser
     this.props.fetchUserOrders(id)
+  }
+
+  viewOrder = (event, id) => {
+    this.props.history.push(`/orders/${id}`)
   }
 
   render() {
@@ -21,47 +26,78 @@ export class UserHome extends React.Component {
 
     return (
       <div>
-        <h1 align="center">My Account</h1>
-        <h3 align="center">Hello{name}!</h3>
-        <h3>ACCOUNT DETAILS</h3>
-        {firstName || lastName ? (
-          <h5>
-            Name: {firstName} {lastName}
-          </h5>
+        <Header align="center">My Account</Header>
+        <Header align="center">Hello{name}!</Header>
+        <Table celled striped>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell colSpan="3">ACCOUNT DETAILS</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+
+          <Table.Body>
+            <Table.Row>
+              <Table.Cell>name</Table.Cell>
+              <Table.Cell>
+                {firstName} {lastName}
+              </Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>email</Table.Cell>
+              <Table.Cell>{email}</Table.Cell>
+            </Table.Row>
+          </Table.Body>
+        </Table>
+
+        {isAdmin ? (
+          <div align="center">
+            <br />
+            <Button
+              color="blue"
+              onClick={() => this.props.history.push('/admin')}
+            >
+              Go to Admin Page
+            </Button>
+          </div>
         ) : (
           ''
         )}
-        <h5>Email: {email}</h5>
 
-        <h3>ORDER HISTORY</h3>
-        <table>
-          <tbody>
-            <tr>
-              <th>Order Number</th>
-              <th>Order Date</th>
-              <th>Status</th>
-            </tr>
+        <Header>ORDER HISTORY</Header>
+        <Table celled>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>Order Number</Table.HeaderCell>
+              <Table.HeaderCell>Order Date</Table.HeaderCell>
+              <Table.HeaderCell>Status</Table.HeaderCell>
+              <Table.HeaderCell>View Order</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
             {orders.map(order => {
               return (
-                <tr key={order.id}>
-                  <td>
-                    <Link className="link" to={`/orders/${order.id}`}>
-                      {order.orderNumber}
-                    </Link>
-                  </td>
-                  <td>{order.orderDate.slice(0, 10)}</td>
-                  <td>{order.status}</td>
-                </tr>
+                <Table.Row key={order.id}>
+                  <Table.Cell>{order.orderNumber}</Table.Cell>
+                  <Table.Cell>{order.orderDate.slice(0, 10)}</Table.Cell>
+                  <Table.Cell>{order.status}</Table.Cell>
+                  <Table.Cell>
+                    <Button
+                      id={order.id}
+                      onClick={(event, name) => this.viewOrder(event, name.id)}
+                    >
+                      view order
+                    </Button>
+                  </Table.Cell>
+                </Table.Row>
               )
             })}
-          </tbody>
-        </table>
-        <div>{noOrders}</div>
+          </Table.Body>
+        </Table>
+        <Header align="center">{noOrders}</Header>
       </div>
     )
   }
 }
-
 /**
  * CONTAINER
  */

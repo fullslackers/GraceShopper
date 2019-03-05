@@ -150,30 +150,25 @@ class SingleProduct extends Component {
             </Grid.Row>
           </Grid>
         </Container>
-        <Container margin="1em">
-          <Comment.Group>
-            <Header as="h3" dividing>
-              Reviews
-            </Header>
-            {curReviews.map(review => {
-              return (
-                <Comment key={review.id}>
-                  <Comment.Avatar src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
-                  <Comment.Content>
-                    {/* <Comment.Author as='a'>Matt</Comment.Author> */}
-                    <Comment.Metadata>
-                      <div>{review.createdAt.slice(0, 10)}</div>
-                    </Comment.Metadata>
-                    <Comment.Text>{review.description}</Comment.Text>
-                  </Comment.Content>
-                  <Divider hidden />
-                </Comment>
-              )
-            })}
-          </Comment.Group>
-          <Divider hidden />
-        </Container>
-        <Divider hidden />
+        <Comment.Group>
+          <Header as="h3" dividing>
+            Reviews
+          </Header>
+          {curReviews.map(review => {
+            return (
+              <Comment key={review.id}>
+                <Comment.Avatar src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
+                <Comment.Content>
+                  {/* <Comment.Author as='a'>Matt</Comment.Author> */}
+                  <Comment.Metadata>
+                    <div>{review.createdAt.slice(0, 10)}</div>
+                  </Comment.Metadata>
+                  <Comment.Text>{review.description}</Comment.Text>
+                </Comment.Content>
+              </Comment>
+            )
+          })}
+        </Comment.Group>
       </div>
     )
   }

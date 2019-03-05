@@ -6,7 +6,7 @@ router.post('/', async (req, res, next) => {
   try {
     const {token, amount} = req.body
     const charge = await stripe.charges.create({
-      amount: 456,
+      amount: amount,
       currency: 'usd',
       source: token.id
     })

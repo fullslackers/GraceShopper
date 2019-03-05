@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import CartItem from './CartItem'
-import Checkout from './Checkout'
+// import Checkout from './Checkout'
 import {checkout} from './../store/cart'
 import {
   Table,
@@ -65,7 +65,11 @@ class Cart extends Component {
             </Table.Row>
           </Table.Footer>
         </Table>
-        <Button primary type="submit" onClick={this.readyForCheckout}>
+        <Button
+          primary
+          type="submit"
+          onClick={() => this.props.checkout(this.props.cart)}
+        >
           Check out
         </Button>
         <Divider horizontal />

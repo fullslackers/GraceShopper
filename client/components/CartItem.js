@@ -48,7 +48,9 @@ class CartItem extends Component {
             +
           </Button>
         </Table.Cell>
-        <Table.Cell textAlign="center">${quantity * price}</Table.Cell>
+        <Table.Cell textAlign="center">
+          ${(quantity * price).toFixed(2)}
+        </Table.Cell>
         <Table.Cell>
           <Button
             negative

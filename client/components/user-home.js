@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {fetchSelectedUserOrders} from '../store/orders'
-import {Table, Button, Header} from 'semantic-ui-react'
+import {Table, Button, Header, Divider} from 'semantic-ui-react'
 
 /**
  * COMPONENT
@@ -26,8 +26,13 @@ export class UserHome extends React.Component {
 
     return (
       <div>
-        <Header align="center">My Account</Header>
-        <Header align="center">Hello{name}!</Header>
+        <Divider hidden />
+        <Header as="h1" align="center">
+          My Account
+        </Header>
+        <Header as="h3" align="center">
+          Hello{name}!
+        </Header>
         <Table celled striped>
           <Table.Header>
             <Table.Row>
@@ -48,20 +53,6 @@ export class UserHome extends React.Component {
             </Table.Row>
           </Table.Body>
         </Table>
-
-        {isAdmin ? (
-          <div align="center">
-            <br />
-            <Button
-              color="blue"
-              onClick={() => this.props.history.push('/admin')}
-            >
-              Go to Admin Page
-            </Button>
-          </div>
-        ) : (
-          ''
-        )}
 
         <Header>ORDER HISTORY</Header>
         <Table celled>

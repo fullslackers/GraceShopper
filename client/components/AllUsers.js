@@ -112,7 +112,7 @@ export class AllUsers extends React.Component {
           </Table.Body>
         </Table>
         <Pagination
-          totalPages={10}
+          totalPages={3}
           activePage={activePage}
           onPageChange={this.handlePaginationChange}
         />

@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {fetchSelectedProduct} from './../store/products'
 import {Link} from 'react-router-dom'
 import {addToCart} from './../store/cart'
+import {fetchReviews} from './../store/reviews'
 import {
   Divider,
   Popup,
@@ -10,37 +11,39 @@ import {
   Button,
   Item,
   Image,
-  Container
+  Container,
+  Comment,
+  Header
 } from 'semantic-ui-react'
+
+const reviewsForProduct = (allReviews, productId) => {
+  return allReviews.filter(review => review.productId === productId)
+}
 
 class SingleProduct extends Component {
   componentDidMount() {
+    this.props.fetchReviews()
     this.props.fetchSelectedProduct()
   }
 
   render() {
     const {isAdmin} = this.props
+    const allReviews = this.props.allReviews
+    const productId = Number(this.props.location.pathname.split('/')[2])
+    const curReviews = reviewsForProduct(allReviews, productId)
 
     return (
-      <Container>
-        <Grid container>
-          <Grid.Row>
-            <Grid stackable centered>
-              <Grid container columns={2}>
-                <Grid.Column>
-                  <Item>
-                    <Image
-                      size="large"
-                      src={this.props.selectedProduct.imageUrl}
-                    />
-                  </Item>
-                </Grid.Column>
-                <Grid.Column>
-                  <Item>
-                    <Item.Content>
-                      <Item.Header
-                        as="h1"
-                        content={this.props.selectedProduct.title}
+      <div>
+        <Container>
+          <Grid container>
+            <Grid.Row>
+              <Grid stackable centered>
+                <Grid container columns={2}>
+                  <Grid.Column>
+                    <Item>
+                      <Image
+                        size="large"
+                        src={this.props.selectedProduct.imageUrl}
                       />
                       <h4>${this.props.selectedProduct.price}</h4>
                       {isAdmin ? (
@@ -78,24 +81,70 @@ class SingleProduct extends Component {
                         on="click"
                       />
                       <Divider hidden />
+                    </Item>
+                  </Grid.Column>
 
-                      {isAdmin ? (
-                        <div>
-                          <Button>
-                            <Link
-                              to={`/products/${
-                                this.props.selectedProduct.id
-                              }/edit`}
+                  <Grid.Column>
+                    <Item>
+                      <Item.Content>
+                        <Item.Header
+                          as="h1"
+                          content={this.props.selectedProduct.title}
+                        />
+                        <h4>${this.props.selectedProduct.price}</h4>
+                        {isAdmin ? (
+                          <div>
+                            <Item.Description>
+                              Item #{this.props.selectedProduct.id}
+                            </Item.Description>
+                            <Item.Description>
+                              Inventory: {this.props.selectedProduct.inventory}
+                            </Item.Description>
+                          </div>
+                        ) : (
+                          ''
+                        )}
+                        <Divider hidden />
+                        <Item.Description>
+                          {this.props.selectedProduct.description}
+                          <Divider hidden />
+                        </Item.Description>
+                        <Popup
+                          trigger={
+                            <Button
+                              color="blue"
+                              onClick={() =>
+                                this.props.addToCart({
+                                  ...this.props.selectedProduct,
+                                  quantity: 1
+                                })
+                              }
                             >
-                              Edit Product
-                            </Link>
-                          </Button>
-                        </div>
-                      ) : (
-                        ''
-                      )}
+                              Add to Cart
+                            </Button>
+                          }
+                          content="Added to Cart!"
+                          on="click"
+                        />
+                        <Divider hidden />
 
-                      {/* // <button
+                        {isAdmin ? (
+                          <div>
+                            <Button>
+                              <Link
+                                to={`/products/${
+                                  this.props.selectedProduct.id
+                                }/edit`}
+                              >
+                                Edit Product
+                              </Link>
+                            </Button>
+                          </div>
+                        ) : (
+                          ''
+                        )}
+
+                        {/* // <button
                       //   type="button"
                       //   onClick={() =>
                       //     this.props.addToCart({
@@ -106,14 +155,34 @@ class SingleProduct extends Component {
                       // >
                       //   Add to Cart
                       // </button> */}
-                    </Item.Content>
-                  </Item>
-                </Grid.Column>
+                      </Item.Content>
+                    </Item>
+                  </Grid.Column>
+                </Grid>
               </Grid>
-            </Grid>
-          </Grid.Row>
-        </Grid>
-      </Container>
+            </Grid.Row>
+          </Grid>
+        </Container>
+        <Comment.Group>
+          <Header as="h3" dividing>
+            Reviews
+          </Header>
+          {curReviews.map(review => {
+            return (
+              <Comment key={review.id}>
+                <Comment.Avatar src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
+                <Comment.Content>
+                  {/* <Comment.Author as='a'>Matt</Comment.Author> */}
+                  <Comment.Metadata>
+                    <div>{review.createdAt.slice(0, 10)}</div>
+                  </Comment.Metadata>
+                  <Comment.Text>{review.description}</Comment.Text>
+                </Comment.Content>
+              </Comment>
+            )
+          })}
+        </Comment.Group>
+      </div>
     )
   }
 }
@@ -124,13 +193,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       const productId = ownProps.match.params.productId
       dispatch(fetchSelectedProduct(productId))
     },
+    fetchReviews: () => {
+      dispatch(fetchReviews())
+    },
     addToCart: product => dispatch(addToCart(product))
   }
 }
 const mapStateToProps = (state, ownProps) => {
   return {
     selectedProduct: state.products.selectedProduct,
-    isAdmin: state.currentUser.isAdmin
+    isAdmin: state.currentUser.isAdmin,
+    allReviews: state.reviews.allReviews
   }
 }
 

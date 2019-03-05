@@ -139,6 +139,11 @@ export class HomePage extends React.Component {
     const categoriesTitle = this.props.categories.map(
       category => category.title
     )
+
+    const total = Math.floor(
+      this.props.products.length / this.state.itemsCountPerPage + 1
+    )
+
     if (!categoriesTitle.includes(filter) && filter) {
       return (
         <Fragment>
@@ -195,7 +200,7 @@ export class HomePage extends React.Component {
 
               <Pagination
                 defaultActivePage={1}
-                totalPages={5}
+                totalPages={total}
                 ellipsisItem={null}
                 firstItem={null}
                 lastItem={null}

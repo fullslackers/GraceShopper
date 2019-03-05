@@ -47,7 +47,7 @@ class Checkout extends Component {
         {cart[0] && (
           <StripeCheckout
             token={this.onToken(amount)}
-            stripeKey={process.env.STRIPE_PUBLISHABLE}
+            stripeKey="pk_test_Q2M8negAoyo3fTGDHOAHZEL3"
             amount={Number(amount)}
           />
         )}

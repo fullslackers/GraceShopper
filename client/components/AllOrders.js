@@ -1,7 +1,8 @@
 import React from 'react'
 import {Table, Button} from 'semantic-ui-react'
+import {withRouter} from 'react-router'
 
-export const AllOrders = props => {
+const AllOrders = props => {
   const orders = props.orders
   return (
     <Table celled>
@@ -26,7 +27,7 @@ export const AllOrders = props => {
                 <Button
                   id={order.id}
                   onClick={(event, name) =>
-                    this.props.history.push(`/orders/${name.id}`)
+                    props.history.push(`/orders/${name.id}`)
                   }
                 >
                   view order
@@ -39,3 +40,5 @@ export const AllOrders = props => {
     </Table>
   )
 }
+
+export default withRouter(AllOrders)

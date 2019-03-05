@@ -36,7 +36,6 @@ export class HomePage extends React.Component {
   constructor() {
     super()
     this.state = {
-      // selected: 'sort by category',
       selectedOption: null,
       isSelected: false,
       searchValue: '',
@@ -62,7 +61,6 @@ export class HomePage extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.location.state) {
       if (this.props.location.state.resetCategory) {
-        // this.setState({selected: 'sort by category'})
         this.props.location.state.resetCategory = false
         window.sessionStorage.setItem('selected', 'sort by category')
       }

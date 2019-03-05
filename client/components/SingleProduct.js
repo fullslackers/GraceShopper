@@ -83,7 +83,6 @@ class SingleProduct extends Component {
                       <Divider hidden />
                     </Item>
                   </Grid.Column>
-
                   <Grid.Column>
                     <Item>
                       <Item.Content>
@@ -143,18 +142,6 @@ class SingleProduct extends Component {
                         ) : (
                           ''
                         )}
-
-                        {/* // <button
-                      //   type="button"
-                      //   onClick={() =>
-                      //     this.props.addToCart({
-                      //       ...this.props.selectedProduct,
-                      //       quantity: 1
-                      //     })
-                      //   }
-                      // >
-                      //   Add to Cart
-                      // </button> */}
                       </Item.Content>
                     </Item>
                   </Grid.Column>
@@ -163,25 +150,30 @@ class SingleProduct extends Component {
             </Grid.Row>
           </Grid>
         </Container>
-        <Comment.Group>
-          <Header as="h3" dividing>
-            Reviews
-          </Header>
-          {curReviews.map(review => {
-            return (
-              <Comment key={review.id}>
-                <Comment.Avatar src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
-                <Comment.Content>
-                  {/* <Comment.Author as='a'>Matt</Comment.Author> */}
-                  <Comment.Metadata>
-                    <div>{review.createdAt.slice(0, 10)}</div>
-                  </Comment.Metadata>
-                  <Comment.Text>{review.description}</Comment.Text>
-                </Comment.Content>
-              </Comment>
-            )
-          })}
-        </Comment.Group>
+        <Container margin="1em">
+          <Comment.Group>
+            <Header as="h3" dividing>
+              Reviews
+            </Header>
+            {curReviews.map(review => {
+              return (
+                <Comment key={review.id}>
+                  <Comment.Avatar src="https://react.semantic-ui.com/images/avatar/small/matt.jpg" />
+                  <Comment.Content>
+                    {/* <Comment.Author as='a'>Matt</Comment.Author> */}
+                    <Comment.Metadata>
+                      <div>{review.createdAt.slice(0, 10)}</div>
+                    </Comment.Metadata>
+                    <Comment.Text>{review.description}</Comment.Text>
+                  </Comment.Content>
+                  <Divider hidden />
+                </Comment>
+              )
+            })}
+          </Comment.Group>
+          <Divider hidden />
+        </Container>
+        <Divider hidden />
       </div>
     )
   }

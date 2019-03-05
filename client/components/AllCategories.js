@@ -1,24 +1,27 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Table} from 'semantic-ui-react'
 
 export const AllCategories = props => {
   const categories = props.categories
+
   return (
-    <table>
-      <tbody>
-        <tr>
-          <th>id</th>
-          <th>title</th>
-        </tr>
+    <Table celled>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>id</Table.HeaderCell>
+          <Table.HeaderCell>title</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
         {categories.map(category => {
           return (
-            <tr key={category.id}>
-              <td>{category.id}</td>
-              <td>{category.title}</td>
-            </tr>
+            <Table.Row key={category.id}>
+              <Table.Cell>{category.id}</Table.Cell>
+              <Table.Cell>{category.title}</Table.Cell>
+            </Table.Row>
           )
         })}
-      </tbody>
-    </table>
+      </Table.Body>
+    </Table>
   )
 }

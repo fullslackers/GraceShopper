@@ -8,32 +8,22 @@ import {fetchCategories} from '../store/categories'
 import {AllUsers} from './AllUsers'
 import {AllOrders} from './AllOrders'
 import {AllCategories} from './AllCategories'
-import {withRouter, Route, Switch} from 'react-router-dom'
-import {Tabs, TabLink, TabContent} from 'react-tabs-redux'
-
-const styles = {
-  tabs: {
-    width: '100%',
-    display: 'inline-block',
-    marginRight: '30px',
-    verticalAlign: 'top'
-  },
-  tabLink: {
-    height: '30px',
-    lineHeight: '30px',
-    padding: '0 15px',
-    cursor: 'pointer',
-    border: 'none',
-    borderBottom: '2px solid transparent',
-    display: 'inline-block'
-  }
-}
+import {Tab} from 'semantic-ui-react'
 
 export class AdminHome extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      curPageOrders: 1,
+      curPageUsers: 1,
+      curPageCategories: 1
+    }
+  }
+
   componentDidMount() {
-    this.props.fetchAllOrders()
-    this.props.fetchAllUsers()
-    this.props.fetchAllCategories()
+    this.props.fetchAllOrders(this.state.curPageOrders)
+    this.props.fetchAllUsers(this.state.curPageUsers)
+    this.props.fetchAllCategories(this.state.curPageCategories)
   }
 
   selectContent = event => {
@@ -41,44 +31,44 @@ export class AdminHome extends React.Component {
   }
 
   render() {
-    const {
-      isAdmin,
-      allUsers,
-      allOrders,
-      allCategories,
-      allProducts
-    } = this.props
+    const {isAdmin, allUsers, allOrders, allCategories} = this.props
+
+    const panes = [
+      {
+        menuItem: {key: 'categories', icon: 'tag', content: 'all categories'},
+        render: () => (
+          <Tab.Pane>
+            <AllCategories categories={allCategories} />
+          </Tab.Pane>
+        )
+      },
+      {
+        menuItem: {key: 'orders', icon: 'pencil', content: 'all orders'},
+        render: () => (
+          <Tab.Pane>
+            <AllOrders orders={allOrders} />
+          </Tab.Pane>
+        )
+      },
+      {
+        menuItem: {key: 'users', icon: 'users', content: 'all users'},
+        render: () => (
+          <Tab.Pane>
+            <AllUsers users={allUsers} />
+          </Tab.Pane>
+        )
+      }
+    ]
+
     if (!isAdmin) return <div />
     return (
       <div>
-        <div style={styles.center}>
-          <div>users: {allUsers.length}</div>
-          <div>orders: {allOrders.length}</div>
-          <div>products: {allProducts.length}</div>
-          <div>categories: {allCategories.length}</div>
-        </div>
         <br />
         <br />
-        <Tabs renderActiveTabContentOnly={true} style={styles.tabs}>
-          <TabLink to="tab1" style={styles.tabLink}>
-            all users
-          </TabLink>
-          <TabLink to="tab2" style={styles.tabLink}>
-            all orders
-          </TabLink>
-          <TabLink to="tab3" style={styles.tabLink}>
-            all categories
-          </TabLink>
-          <TabContent for="tab1">
-            <AllUsers users={allUsers} />
-          </TabContent>
-          <TabContent for="tab2">
-            <AllOrders orders={allOrders} />
-          </TabContent>
-          <TabContent for="tab3">
-            <AllCategories categories={allCategories} />
-          </TabContent>
-        </Tabs>
+        <Tab
+          menu={{fluid: true, vertical: true, tabular: true}}
+          panes={panes}
+        />
       </div>
     )
   }
@@ -92,8 +82,7 @@ const mapState = state => {
     isAdmin: state.currentUser.isAdmin,
     allUsers: state.users,
     allOrders: state.orders.allOrders,
-    allCategories: state.categories,
-    allProducts: state.products.allProducts
+    allCategories: state.categories
   }
 }
 

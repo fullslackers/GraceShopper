@@ -173,7 +173,9 @@ export class HomePage extends React.Component {
                 onSubmit={this.handleSearchSubmit}
               >
                 {InputExampleFocus()}
-                <Button type="submit">Search it!</Button>
+                <Button type="submit" margin="5px">
+                  Search it!
+                </Button>
                 <Button type="reset" onClick={this.handleSearchReset}>
                   Reset
                 </Button>

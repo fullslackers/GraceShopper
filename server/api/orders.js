@@ -63,9 +63,9 @@ router.get('/:orderId', loginCheckMiddleware, async (req, res, next) => {
 router.post('/', loginCheckMiddleware, async (req, res, next) => {
   try {
     const cart = req.body
-    const total = cart
-      .reduce((acc, cur) => acc + cur.price * cur.quantity, 0)
-      .toFixed(2)
+    const total = (
+      cart.reduce((acc, cur) => acc + cur.price * cur.quantity, 0) + 10
+    ).toFixed(2)
     const newOrder = await Order.create({
       copyProducts: cart,
       totalPrice: total

@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import axios from 'axios'
-import {PAYMENT_SERVER_URL, STRIPE_PUBLISHABLE} from '../../secrets'
+// import {PAYMENT_SERVER_URL, STRIPE_PUBLISHABLE} from '../../secrets'
 import StripeCheckout from 'react-stripe-checkout'
 import {connect} from 'react-redux'
 import {checkout} from './../store/cart'
@@ -47,7 +47,7 @@ class Checkout extends Component {
         {cart[0] && (
           <StripeCheckout
             token={this.onToken(amount)}
-            stripeKey={STRIPE_PUBLISHABLE}
+            stripeKey={process.env.STRIPE_PUBLISHABLE}
             amount={Number(amount)}
           />
         )}

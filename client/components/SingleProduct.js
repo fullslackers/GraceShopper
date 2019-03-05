@@ -63,7 +63,7 @@ class SingleProduct extends Component {
                       <Popup
                         trigger={
                           <Button
-                            color="blue"
+                            color="black"
                             onClick={() =>
                               this.props.addToCart({
                                 ...this.props.selectedProduct,

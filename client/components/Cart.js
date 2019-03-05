@@ -18,7 +18,7 @@ class Cart extends Component {
       <Container>
         <Divider hidden />
         <NavLink to="/">
-          <Button color="blue">
+          <Button color="black">
             Continue <strong>shopping...</strong>
           </Button>
         </NavLink>
@@ -64,7 +64,7 @@ class Cart extends Component {
             </Table.Row>
           </Table.Footer>
         </Table>
-        <Button primary type="submit" onClick={this.readyForCheckout}>
+        <Button color="black" type="submit" onClick={this.readyForCheckout}>
           Check out
         </Button>
         <Divider horizontal />

@@ -59,44 +59,6 @@ class CartItem extends Component {
           </Button>
         </Table.Cell>
       </Table.Row>
-
-      // <div>
-      //   <div>
-      //     {id}
-      //     {title}
-      //     {imageUrl}
-      //     {price}
-      //   </div>
-      //   <div>
-      //     {quantity > 1 ? (
-      //       <button
-      //         onClick={() =>
-      //           this.props.updateQuantity(this.props.item, 'decrement')
-      //         }
-      //         type="button"
-      //       >
-      //         -
-      //       </button>
-      //     ) : (
-      //       ''
-      //     )}
-      //     {quantity}
-      //     <button
-      //       onClick={() =>
-      //         this.props.updateQuantity(this.props.item, 'increment')
-      //       }
-      //       type="button"
-      //     >
-      //       +
-      //     </button>
-      //   </div>
-      //   <button
-      //     type="button"
-      //     onClick={() => this.props.removeFromCart(this.props.item)}
-      //   >
-      //     Remove Item
-      //   </button>
-      // </div>
     )
   }
 }

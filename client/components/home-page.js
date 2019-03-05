@@ -86,6 +86,7 @@ export class HomePage extends React.Component {
 
   handlePageChange = (e, {activePage}) => {
     this.setState({activePage})
+    this.props.history.push(`/page=${activePage}`)
   }
 
   selectCategory = text => {
@@ -197,9 +198,6 @@ export class HomePage extends React.Component {
                 firstItem={null}
                 lastItem={null}
                 siblingRange={1}
-                // itemsCountPerPage={this.state.itemsCountPerPage}
-                // totalItemsCount={this.props.products.length}
-                // pageRangeDisplayed={5}
                 onPageChange={this.handlePageChange}
               />
             </div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import {Table, Button} from 'semantic-ui-react'
+import {Table, Button, Divider} from 'semantic-ui-react'
 import {withRouter} from 'react-router'
 
 const AllOrders = props => {

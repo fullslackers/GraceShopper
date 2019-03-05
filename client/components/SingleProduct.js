@@ -15,23 +15,19 @@ import {
   Comment,
   Header
 } from 'semantic-ui-react'
-
 const reviewsForProduct = (allReviews, productId) => {
   return allReviews.filter(review => review.productId === productId)
 }
-
 class SingleProduct extends Component {
   componentDidMount() {
     this.props.fetchReviews()
     this.props.fetchSelectedProduct()
   }
-
   render() {
     const {isAdmin} = this.props
     const allReviews = this.props.allReviews
     const productId = Number(this.props.location.pathname.split('/')[2])
     const curReviews = reviewsForProduct(allReviews, productId)
-
     return (
       <div>
         <Container>
@@ -90,7 +86,6 @@ class SingleProduct extends Component {
                           on="click"
                         />
                         <Divider hidden />
-
                         {isAdmin ? (
                           <div>
                             <Button>
@@ -143,7 +138,6 @@ class SingleProduct extends Component {
     )
   }
 }
-
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     fetchSelectedProduct: () => {
@@ -163,5 +157,4 @@ const mapStateToProps = (state, ownProps) => {
     allReviews: state.reviews.allReviews
   }
 }
-
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)

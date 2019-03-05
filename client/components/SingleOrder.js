@@ -93,6 +93,7 @@ class SingleOrder extends Component {
         </Accordion>
 
         <Header as="h1">Items Ordered</Header>
+        <h4>{selectedOrder.totalPrice}</h4>
 
         <Card.Group stackable centered style={styles.cardGroup}>
           {products.map(product => {
@@ -114,6 +115,10 @@ class SingleOrder extends Component {
                     </Card.Description>
                     <Card.Description style={styles.margin} as="h4">
                       Quantity: {product.quantity ? product.quantity : 1}
+                      Subtotal:{' '}
+                      {product.quantity
+                        ? (product.quantity * product.price).toFixed(2)
+                        : product.price}
                     </Card.Description>
                   </Card.Content>
 

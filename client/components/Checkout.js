@@ -4,11 +4,14 @@ import {PAYMENT_SERVER_URL, STRIPE_PUBLISHABLE} from '../../secrets'
 import StripeCheckout from 'react-stripe-checkout'
 import {connect} from 'react-redux'
 import {checkout} from './../store/cart'
-import {fetchOrders} from './../store/orders'
-
+import {withRouter} from 'react-router'
+import {Button, Modal, Header, Icon} from 'semantic-ui-react'
 class Checkout extends Component {
   constructor() {
     super()
+    this.state = {
+      orderComplete: false
+    }
     this.onToken = this.onToken.bind(this)
     this.successPayment = this.successPayment.bind(this)
     this.errorPayment = this.errorPayment.bind(this)
@@ -27,24 +30,45 @@ class Checkout extends Component {
       }
     }
   }
-
   async successPayment() {
-    const {checkout, cart, fetchOrders, orders} = this.props
+    this.setState({
+      orderComplete: true
+    })
+    const {checkout, cart, history} = this.props
     await checkout(cart)
-    await fetchOrders()
-    await console.log(orders)
   }
   errorPayment(data) {
-    console.log(data)
+    alert('Payment Error')
   }
   render() {
-    const {amount} = this.props
+    const {amount, history, cart} = this.props
     return (
-      <StripeCheckout
-        token={this.onToken(amount)}
-        stripeKey={STRIPE_PUBLISHABLE}
-        amount={Number(amount)}
-      />
+      <>
+        {cart[0] && (
+          <StripeCheckout
+            token={this.onToken(amount)}
+            stripeKey={STRIPE_PUBLISHABLE}
+            amount={Number(amount)}
+          />
+        )}
+        {this.state.orderComplete && (
+          <Modal defaultOpen basic size="small">
+            <Header icon="cart" content="Thank You!" />
+            <Modal.Content>
+              <p>Your order has been placed.</p>
+            </Modal.Content>
+            <Modal.Actions>
+              <Button
+                onClick={() => history.push('/home')}
+                color="green"
+                inverted
+              >
+                <Icon name="checkmark" /> Okay
+              </Button>
+            </Modal.Actions>
+          </Modal>
+        )}
+      </>
     )
   }
 }
@@ -58,17 +82,15 @@ const mapStateToProps = state => ({
     ).toFixed(2),
     10
   ),
-  cart: state.cart,
-  orders: state.orders
+  cart: state.cart
 })
 
 const mapDispatchToProps = dispatch => ({
   checkout: cart => {
     dispatch(checkout(cart))
-  },
-  fetchOrders: () => {
-    dispatch(fetchOrders())
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout)
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(Checkout)
+)

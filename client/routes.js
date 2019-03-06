@@ -46,6 +46,11 @@ class Routes extends Component {
         <Route path="/products/:productId/edit" component={EditProduct} />
         <Route path="/products/:productId" component={SingleProduct} />
         <Route exact path="/categories/:category" component={HomePage} />
+        <Route
+          exact
+          path="/categories/:category?page=pageid"
+          component={HomePage}
+        />
         <Route exact path="/orders/:orderId" component={SingleOrder} />
         {isLoggedIn && (
           <Switch>

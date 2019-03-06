@@ -22,7 +22,7 @@ export class UserHome extends React.Component {
     const orders = this.props.curUserOrders
     const name = firstName ? ` ${firstName}` : ''
     const noOrders =
-      orders.length === 0 ? `You haven't place any orders yet!` : ''
+      orders.length === 0 ? `You haven't placed any orders yet!` : ''
 
     return (
       <div>

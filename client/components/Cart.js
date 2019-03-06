@@ -72,17 +72,12 @@ class Cart extends Component {
               </Table.Footer>
             </Table>
 
-            {/* <Button
-          primary
-          type="submit"
-          onClick={() => this.props.checkout(this.props.cart)}
-        >
-          Check out
-        </Button> */}
             <Divider horizontal />
           </Container>
         )}
-        <Checkout />
+        <Container>
+          <Checkout />
+        </Container>
       </>
     )
   }

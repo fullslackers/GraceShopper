@@ -39,8 +39,8 @@ export class HomePage extends React.Component {
       selectedOption: null,
       isSelected: false,
       searchValue: '',
-      activePage: 1,
-      itemsCountPerPage: 3
+      activePage: 1
+      // itemsCountPerPage: 10
     }
   }
 
@@ -151,9 +151,9 @@ export class HomePage extends React.Component {
       category => category.title
     )
 
-    const total = Math.floor(
-      this.props.products.length / this.state.itemsCountPerPage + 1
-    )
+    // const total = Math.floor(
+    //   this.props.products.length / this.state.itemsCountPerPage + 1
+    // )
 
     if (!categoriesTitle.includes(filter) && filter) {
       return (
@@ -210,7 +210,7 @@ export class HomePage extends React.Component {
               </Card.Group>
 
               <Pagination
-                totalPages={total}
+                totalPages={71}
                 activePage={this.state.activePage}
                 ellipsisItem={null}
                 firstItem={null}

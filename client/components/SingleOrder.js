@@ -53,6 +53,7 @@ class SingleOrder extends Component {
       <Container>
         <Divider hidden />
         <Header as="h1">Order Detail</Header>
+        <h4>${selectedOrder.totalPrice}</h4>
         <Divider hidden />
         <Accordion styled>
           <Accordion.Title
@@ -93,7 +94,6 @@ class SingleOrder extends Component {
         </Accordion>
 
         <Header as="h1">Items Ordered</Header>
-        <h4>{selectedOrder.totalPrice}</h4>
 
         <Card.Group stackable centered style={styles.cardGroup}>
           {products.map(product => {

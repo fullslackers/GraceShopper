@@ -13,12 +13,12 @@ import {
   Pagination
 } from 'semantic-ui-react'
 
-const ProductsOnCurPage = (allProducts, curPage, itemsPerPage) => {
-  return allProducts.slice(
-    (curPage - 1) * itemsPerPage,
-    (curPage - 1) * itemsPerPage + itemsPerPage
-  )
-}
+// const ProductsOnCurPage = (allProducts, curPage, itemsPerPage) => {
+//   return allProducts.slice(
+//     (curPage - 1) * itemsPerPage,
+//     (curPage - 1) * itemsPerPage + itemsPerPage
+//   )
+// }
 
 const styles = {
   cardGroup: {
@@ -45,33 +45,33 @@ export class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.location.state)
-      this.props.location.state.resetCategory = false
+    // if (this.props.location.state)
+    //   this.props.location.state.resetCategory = false
 
     const filter = this.props.location.pathname.split('/')[2]
     if (filter) {
       this.setState({selectedOption: filter})
       this.setState({isSelected: true})
-      this.props.filteredProducts(filter)
+      this.props.filteredProducts(filter, this.state.activePage)
     } else {
-      this.props.filteredProducts()
+      this.props.filteredProducts(undefined, this.state.activePage)
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.location.state) {
-      if (this.props.location.state.resetCategory) {
-        this.props.location.state.resetCategory = false
-        window.sessionStorage.setItem('selected', 'sort by category')
-      }
-    }
+    // if (this.props.location.state) {
+    //   if (this.props.location.state.resetCategory) {
+    //     this.props.location.state.resetCategory = false
+    //     window.sessionStorage.setItem('selected', 'sort by category')
+    //   }
+    // }
 
     if (prevProps.location !== this.props.location) {
       const filter = this.props.location.pathname.split('/')[2]
       if (!filter) {
-        this.props.filteredProducts()
+        this.props.filteredProducts(undefined, this.state.activePage)
       } else {
-        this.props.filteredProducts(filter)
+        this.props.filteredProducts(filter, this.state.activePage)
       }
     }
     if (this.state.isSelected) {
@@ -84,13 +84,23 @@ export class HomePage extends React.Component {
 
   handlePageChange = (e, {activePage}) => {
     this.setState({activePage})
-    this.props.history.push(`/page=${activePage}`)
+    if (
+      this.state.selectedOption === null ||
+      this.state.selectedOption === 'all products'
+    ) {
+      this.props.history.push(`/?page=${activePage}`)
+    } else {
+      this.props.history.push(
+        `/categories/${this.state.selectedOption}?page=${activePage}`
+      )
+    }
   }
 
   selectCategory = text => {
     let selectedOption = text
     this.setState({selectedOption})
     this.setState({isSelected: true})
+    this.setState({activePage: 1})
     if (selectedOption === 'all products') this.props.history.push('/')
     else this.props.history.push(`/categories/${selectedOption}`)
   }
@@ -114,7 +124,10 @@ export class HomePage extends React.Component {
 
   handleSearchReset = e => {
     e.preventDefault()
-    this.props.filteredProducts(this.state.selectedOption)
+    this.props.filteredProducts(
+      this.state.selectedOption,
+      this.state.activePage
+    )
   }
 
   render() {
@@ -128,11 +141,11 @@ export class HomePage extends React.Component {
       />
     )
 
-    const ProductsCurPage = ProductsOnCurPage(
-      this.props.products,
-      this.state.activePage,
-      this.state.itemsCountPerPage
-    )
+    // const ProductsCurPage = ProductsOnCurPage(
+    //   this.props.products,
+    //   this.state.activePage,
+    //   this.state.itemsCountPerPage
+    // )
     const filter = this.props.location.pathname.split('/')[2]
     const categoriesTitle = this.props.categories.map(
       category => category.title
@@ -185,7 +198,7 @@ export class HomePage extends React.Component {
               </form>
 
               <Card.Group stackable centered style={styles.cardGroup}>
-                {ProductsCurPage.map(product => (
+                {this.props.products.map(product => (
                   <React.Fragment key={product.id}>
                     <ProductForHomePage
                       featured
@@ -197,8 +210,8 @@ export class HomePage extends React.Component {
               </Card.Group>
 
               <Pagination
-                defaultActivePage={1}
                 totalPages={total}
+                activePage={this.state.activePage}
                 ellipsisItem={null}
                 firstItem={null}
                 lastItem={null}
@@ -221,7 +234,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    filteredProducts: filterr => dispatch(fetchProducts(filterr)),
+    filteredProducts: (filterr, curPage) =>
+      dispatch(fetchProducts(filterr, curPage)),
     searchProducts: searchValue => dispatch(setProducts(searchValue))
   }
 }

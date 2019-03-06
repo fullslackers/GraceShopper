@@ -30,13 +30,18 @@ export const removeProduct = id => ({
 })
 
 // THUNK-TIONS
-export const fetchProducts = filter => {
+export const fetchProducts = (filter, curPage) => {
   return async dispatch => {
-    if (!filter || filter === 'sort by category') {
-      const {data} = await axios.get('/api/products')
+    const params = {
+      page: curPage
+    }
+    if (!filter) {
+      const {data} = await axios.get('/api/products', {params})
       dispatch(setProducts(data))
     } else {
-      const {data} = await axios.get(`/api/products/categories/${filter}`)
+      const {data} = await axios.get(`/api/products/categories/${filter}`, {
+        params
+      })
       dispatch(setProducts(data))
     }
   }

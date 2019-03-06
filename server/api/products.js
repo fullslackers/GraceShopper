@@ -7,20 +7,20 @@ module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    // const page = req.query.pageid || 1
-    // const perPage = 20
-    // const offset = (page - 1) * perPage
-    // // select * from products limit 10 offset ${offset} order by updateAt desc
-    // const pageOfProducts = await Product.findAll({
-    //   include: [{model: Category, fields: ['title']}],
-    //   limit: perPage,
-    //   offset: offset,
-    //   orderBy: 'updatedAt'
-    // })
-    // res.json(pageOfProducts)
+    const page = req.query.page || 1
+    const perPage = 10
+    const offset = (page - 1) * perPage
+    // select * from products limit 10 offset ${offset} order by updateAt desc
+    const pageOfProducts = await Product.findAll({
+      include: [{model: Category, fields: ['title']}],
+      limit: perPage,
+      offset: offset,
+      orderBy: 'updatedAt'
+    })
+    res.json(pageOfProducts)
 
-    const allProducts = await Product.findAll({include: [Category]})
-    res.json(allProducts)
+    // const allProducts = await Product.findAll({include: [Category]})
+    // res.json(allProducts)
   } catch (err) {
     next(err)
   }
@@ -46,19 +46,39 @@ router.get('/reviews', async (req, res, next) => {
 
 router.get('/categories/:filter', async (req, res, next) => {
   try {
+    const page = req.query.page || 1
+    const perPage = 10
+    const offset = (page - 1) * perPage
+
     const category = await Category.findOne({
       where: {
         title: req.params.filter
       }
     })
+
     const id = category.id
-    const productsByCategory = await Product.findAll({
-      include: {
-        model: Category,
-        where: {id}
-      }
+
+    const pageOfProducts = await Product.findAll({
+      include: [{model: Category, where: {id}}],
+      limit: perPage,
+      offset: offset,
+      orderBy: 'updatedAt'
     })
-    res.json(productsByCategory)
+    res.json(pageOfProducts)
+
+    // const category = await Category.findOne({
+    //   where: {
+    //     title: req.params.filter
+    //   }
+    // })
+    // const id = category.id
+    // const productsByCategory = await Product.findAll({
+    //   include: {
+    //     model: Category,
+    //     where: {id}
+    //   }
+    // })
+    // res.json(productsByCategory)
   } catch (err) {
     next(err)
   }
